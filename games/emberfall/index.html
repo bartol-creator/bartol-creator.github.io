@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d0806">
+  <title>Emberfall</title>
+  <meta name="description" content="Play Emberfall free in your browser.">
+  <link rel="stylesheet" href="TemplateData/style.css">
+</head>
+<body>
+  <canvas id="game" tabindex="-1" aria-label="Emberfall"></canvas>
+
+  <div id="bar">
+    <a id="home" href="../../">&larr; All games</a>
+    <button id="fullscreen" type="button" hidden>Fullscreen</button>
+  </div>
+
+  <div id="loading">
+    <div class="glow" aria-hidden="true"></div>
+    <h1>EMBERFALL</h1>
+    <div id="track" role="progressbar" aria-label="Loading" aria-valuemin="0" aria-valuemax="100"><div id="fill"></div></div>
+    <p id="status">Kindling&hellip; 0%</p>
+    <p class="hint">Move with WASD, aim with the mouse, hold left click to fire, Space to dash. Gamepads work too.</p>
+  </div>
+
+  <div id="notice" hidden>
+    <h2 id="notice-title"></h2>
+    <p id="notice-text"></p>
+    <button id="notice-go" type="button" hidden>Try anyway</button>
+    <a href="../../">Back to all games</a>
+  </div>
+
+  <script>
+    (function () {
+      var canvas = document.getElementById("game");
+      var loading = document.getElementById("loading");
+      var fill = document.getElementById("fill");
+      var track = document.getElementById("track");
+      var status = document.getElementById("status");
+      var notice = document.getElementById("notice");
+      var goButton = document.getElementById("notice-go");
+
+      function show(title, text, canContinue) {
+        document.getElementById("notice-title").textContent = title;
+        document.getElementById("notice-text").textContent = text;
+        goButton.hidden = !canContinue;
+        notice.hidden = false;
+        loading.hidden = true;
+      }
+
+      function start() {
+        notice.hidden = true;
+        loading.hidden = false;
+        var script = document.createElement("script");
+        script.src = "Build/eb019b3df6deed92a9986e6163d21364.loader.js";
+        script.onerror = function () {
+          show("The game didn't load", "Check your connection and reload the page.", false);
+        };
+        script.onload = function () {
+          createUnityInstance(canvas, {
+            arguments: [],
+            dataUrl: "Build/143b20a36098949042160cc8790acf46.data.unityweb",
+            frameworkUrl: "Build/2eeced36c2caa7a3663b73e316f44475.framework.js.unityweb",
+            codeUrl: "Build/ded774c3fa56ade412280e04fcae0788.wasm.unityweb",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "Emberfall",
+            productName: "Emberfall",
+            productVersion: "0.1.0",
+            autoSyncPersistentDataPath: true,
+            devicePixelRatio: Math.min(window.devicePixelRatio || 1, 1.5),   // Retina is costly and barely visible here
+            showBanner: function (message, type) {
+              if (type === "error") show("Something went wrong", message, false);
+              else console.warn(message);
+            }
+          }, function (progress) {
+            var percent = Math.round(progress * 100);
+            fill.style.width = percent + "%";
+            track.setAttribute("aria-valuenow", percent);
+            status.textContent = progress < 0.9 ? "Kindling… " + percent + "%" : "Lighting the lantern…";
+          }).then(function (instance) {
+            loading.hidden = true;
+            canvas.focus();
+            var button = document.getElementById("fullscreen");
+            button.hidden = false;
+            button.onclick = function () { instance.SetFullscreen(1); };
+          }).catch(function (message) {
+            show("The game couldn't start", String(message), false);
+          });
+        };
+        document.body.appendChild(script);
+      }
+
+      canvas.addEventListener("contextmenu", function (e) { e.preventDefault(); });   // right click is an ability
+      canvas.addEventListener("pointerdown", function () { canvas.focus(); });
+      goButton.onclick = start;
+
+      var gl = document.createElement("canvas").getContext("webgl2");
+      if (!gl) {
+        show("Your browser can't run this game", "It needs WebGL 2. Try an up-to-date Chrome, Edge, Firefox or Safari on a computer.", false);
+      } else if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        show("Best on a computer", "Emberfall needs a keyboard and mouse or a gamepad, and has no touch controls.", true);
+      } else {
+        start();
+      }
+    })();
+  </script>
+</body>
+</html>

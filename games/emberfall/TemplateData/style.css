@@ -1,0 +1,25 @@
+:root { --ink: #f3e3c8; --dim: #a8927a; --ember: #ff8a3c; --ground: #0d0806; }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: var(--ground); color: var(--ink); font-family: Georgia, "Times New Roman", serif; }
+[hidden] { display: none !important; }
+#game { position: fixed; top: 36px; left: 0; width: 100%; height: calc(100% - 36px); display: block; outline: none; background: var(--ground); }
+
+#bar { position: fixed; top: 0; left: 0; right: 0; height: 36px; z-index: 2; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; background: #16100c; border-bottom: 1px solid rgba(243, 227, 200, .12); }
+#bar a, #bar button { color: var(--ink); background: none; border: 0; padding: 4px 6px; font: 13px/1.2 Georgia, serif; text-decoration: none; cursor: pointer; }
+#bar a:hover, #bar button:hover { color: var(--ember); }
+
+#loading, #notice { position: fixed; inset: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 16px; text-align: center; background: var(--ground); }
+#loading h1 { position: relative; margin: 0; font-size: clamp(34px, 8vw, 72px); font-weight: 400; letter-spacing: .14em; text-shadow: 0 0 28px rgba(255, 138, 60, .55); }
+.glow { position: absolute; left: 50%; top: 50%; width: min(80vw, 640px); height: min(80vw, 640px); transform: translate(-50%, -50%); background: radial-gradient(circle, rgba(255, 138, 60, .16), transparent 62%); animation: breathe 3.2s ease-in-out infinite; pointer-events: none; }
+@keyframes breathe { 50% { opacity: .55; } }
+#track { position: relative; width: min(80vw, 420px); height: 6px; border-radius: 3px; background: rgba(243, 227, 200, .12); overflow: hidden; }
+#fill { width: 0; height: 100%; background: linear-gradient(90deg, #c8431a, var(--ember), #ffd28a); transition: width .2s; }
+#status { position: relative; margin: 0; font-size: 15px; }
+.hint { position: relative; max-width: 460px; margin: 10px 0 0; color: var(--dim); font-size: 14px; line-height: 1.5; }
+
+#notice h2 { margin: 0; font-size: 26px; font-weight: 400; }
+#notice p { max-width: 460px; margin: 0; color: var(--dim); line-height: 1.5; }
+#notice button { padding: 10px 22px; color: var(--ground); background: var(--ember); border: 0; border-radius: 4px; font: 15px Georgia, serif; cursor: pointer; }
+#notice a { color: var(--ink); }
+
+@media (prefers-reduced-motion: reduce) { .glow { animation: none; } #fill { transition: none; } }

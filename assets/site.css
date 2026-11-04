@@ -1,0 +1,67 @@
+:root { --ground: #0b0a09; --panel: #15120f; --ink: #efe7da; --dim: #a59a8b; --line: rgba(239, 231, 218, .14); --ember: #ff8a3c; --tape: #e8c95a; --rec: #e5352b; }
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--ground); color: var(--ink); font: 17px/1.6 Georgia, "Times New Roman", serif; }
+a { color: inherit; }
+img { display: block; max-width: 100%; }
+.wrap { width: min(1080px, 100% - 32px); margin-inline: auto; }
+header.top { padding: 56px 0 28px; }
+header.top h1 { margin: 0; font-size: clamp(32px, 6vw, 54px); font-weight: 400; line-height: 1.1; }
+header.top p { margin: 10px 0 0; color: var(--dim); }
+footer { margin-top: 64px; padding: 24px 0 40px; border-top: 1px solid var(--line); color: var(--dim); font-size: 14px; }
+
+.games { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 20px; }
+.game { display: flex; flex-direction: column; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; text-decoration: none; transition: border-color .2s, transform .2s; }
+.game:hover, .game:focus-visible { transform: translateY(-3px); }
+.game.ember:hover, .game.ember:focus-visible { border-color: var(--ember); box-shadow: 0 0 34px rgba(255, 138, 60, .22); }
+.game.tape:hover, .game.tape:focus-visible { border-color: var(--tape); }
+.shot { position: relative; aspect-ratio: 16 / 9; background: #000; overflow: hidden; }
+.shot img { width: 100%; height: 100%; object-fit: cover; }
+.game-body { display: flex; flex: 1; flex-direction: column; gap: 8px; padding: 18px 20px 20px; }
+.game h2 { margin: 0; font-size: 27px; font-weight: 400; line-height: 1.2; }
+.game p { margin: 0; color: var(--dim); font-size: 16px; }
+.facts { margin-top: auto !important; padding-top: 8px; font-size: 14px !important; }
+.cta { align-self: flex-start; margin-top: 8px; padding: 8px 18px; border-radius: 4px; font-size: 15px; color: #120b06; }
+.ember .cta { background: var(--ember); }
+.tape .cta { background: var(--tape); }
+
+/* VHS treatment, for Liminality only */
+.vhs::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(0, 0, 0, .2) 0 1px, transparent 1px 3px); }
+.osd { position: absolute; z-index: 1; font: 15px/1 "Courier New", monospace; color: #f4f1e6; text-shadow: 1px 1px 0 #000; letter-spacing: .06em; }
+.osd.rec { top: 14px; left: 16px; }
+.osd.rec::before { content: ""; display: inline-block; width: 10px; height: 10px; margin-right: 7px; border-radius: 50%; background: var(--rec); animation: blink 1.4s steps(2, jump-none) infinite; }
+.osd.play { top: 14px; right: 16px; }
+.osd.stamp { bottom: 14px; left: 16px; }
+@keyframes blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .osd.rec::before { animation: none; } .game { transition: none; } }
+
+/* Liminality page */
+.back { display: inline-block; padding-top: 22px; color: var(--dim); font-size: 15px; }
+.hero { margin-top: 18px; border: 1px solid var(--line); border-radius: 6px; }
+h1.title { margin: 26px 0 4px; font-size: clamp(32px, 6vw, 52px); font-weight: 400; line-height: 1.1; }
+.lede { margin: 0; max-width: 680px; font-size: 19px; }
+.note { margin: 18px 0 0; padding: 12px 16px; border-left: 3px solid var(--tape); background: var(--panel); font-size: 15px; }
+section { margin-top: 44px; }
+section h2 { margin: 0 0 14px; font-size: 26px; font-weight: 400; }
+.downloads { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 12px; }
+.dl { display: flex; flex-direction: column; gap: 2px; padding: 15px 18px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); text-decoration: none; }
+.dl:hover, .dl:focus-visible { border-color: var(--tape); }
+.dl strong { font-size: 19px; font-weight: 400; }
+.dl span { color: var(--dim); font-size: 14px; }
+.dl.yours { border-color: var(--tape); }
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); }
+.tabs button { padding: 9px 16px; color: var(--dim); background: none; border: 0; border-bottom: 2px solid transparent; font: inherit; cursor: pointer; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--tape); }
+.panel { padding: 8px 0 0; }
+.panel ol { padding-left: 24px; }
+.panel li { margin: 10px 0; }
+.panel h3 { margin: 22px 0 4px; font-size: 18px; font-weight: 400; color: var(--tape); }
+.panel p { margin: 6px 0; }
+code { padding: 2px 6px; border-radius: 3px; background: #241f19; font: 14px "SF Mono", Menlo, Consolas, monospace; overflow-wrap: anywhere; }
+pre { margin: 8px 0; padding: 10px 12px; border-radius: 4px; background: #241f19; overflow-x: auto; }
+pre code { padding: 0; background: none; }
+table { width: 100%; max-width: 560px; border-collapse: collapse; font-size: 16px; }
+th, td { padding: 7px 10px 7px 0; border-bottom: 1px solid var(--line); text-align: left; font-weight: 400; }
+th { color: var(--dim); width: 45%; }
+.credits p { margin: 0 0 12px; color: var(--dim); font-size: 15px; }
+.credits strong { display: block; color: var(--ink); font-weight: 400; }
