@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Coldsnap">
+  <link rel="icon" href="TemplateData/icon-192.png">
+  <link rel="manifest" href="TemplateData/manifest.json">
+  <link rel="apple-touch-icon" href="TemplateData/icon-180.png">
+  <meta name="theme-color" content="#0b1118">
+  <title>Coldsnap</title>
+  <meta name="description" content="Third-person shooter at an Arctic research station. Play free in your browser, on a computer or a phone, no download.">
+  <link rel="stylesheet" href="TemplateData/style.css">
+</head>
+<body>
+  <canvas id="game" tabindex="-1" aria-label="Coldsnap"></canvas>
+
+  <div id="bar">
+    <a id="home" href="../../">&larr; All games</a>
+    <button id="fullscreen" type="button" hidden>Fullscreen</button>
+  </div>
+
+  <div id="loading">
+    <p class="tag">Halvard Station &middot; 78&deg;N</p>
+    <h1 class="logo">Coldsnap</h1>
+    <div class="rule"></div>
+    <div class="tank">
+      <div id="track" role="progressbar" aria-label="Loading" aria-valuemin="0" aria-valuemax="100"><div id="fill"></div></div>
+    </div>
+    <p id="status">Loading&hellip; 0%</p>
+    <p class="hint" id="hint">Varg Security holds the station. You go in alone.</p>
+  </div>
+
+  <div id="notice" hidden>
+    <h2 id="notice-title"></h2>
+    <p id="notice-text"></p>
+    <a href="../../">Back to all games</a>
+  </div>
+
+  <div id="rotate" aria-live="polite">Turn your phone sideways to play</div>
+  <div id="safe" aria-hidden="true"></div>
+  <button id="install" type="button" hidden>For full screen, tap Share, then Add to Home Screen, and open it from there. &times;</button>
+
+  <script>
+    (function () {
+      var canvas = document.getElementById("game");
+      var loading = document.getElementById("loading");
+      var fill = document.getElementById("fill");
+      var track = document.getElementById("track");
+      var status = document.getElementById("status");
+      var notice = document.getElementById("notice");
+      var mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+      // Phones are held close, so they get every pixel up to a budget that keeps big tablets affordable. On desktop
+      // Retina is costly and barely visible.
+      function pixelRatio() {
+        var native = window.devicePixelRatio || 1;
+        if (!mobile) return Math.min(native, 1.5);
+        return Math.min(native, Math.sqrt(4200000 / (screen.width * screen.height)));
+      }
+
+      // Browsers only allow fullscreen in response to a tap, so every tap asks until it's granted.
+      function goFullscreen() {
+        var root = document.documentElement;
+        var request = root.requestFullscreen || root.webkitRequestFullscreen;
+        if (!request || document.fullscreenElement || document.webkitFullscreenElement) return;
+        var result = request.call(root, { navigationUI: "hide" });
+        if (result && result.then) result.then(function () {
+          if (screen.orientation && screen.orientation.lock) return screen.orientation.lock("landscape");
+        }).catch(function () {});
+      }
+
+      // iPhone Safari has no fullscreen for pages; only a game opened from the Home Screen fills the display.
+      function offerInstall() {
+        var iphone = /iPhone|iPod/i.test(navigator.userAgent);
+        var dismissed = false;
+        try { dismissed = localStorage.getItem("coldsnap-install-hint") === "1"; } catch (e) {}
+        if (!iphone || navigator.standalone || dismissed) return;
+        var hint = document.getElementById("install");
+        hint.hidden = false;
+        hint.onclick = function () {
+          hint.hidden = true;
+          try { localStorage.setItem("coldsnap-install-hint", "1"); } catch (e) {}
+        };
+      }
+
+      function show(title, text) {
+        document.getElementById("notice-title").textContent = title;
+        document.getElementById("notice-text").textContent = text;
+        notice.hidden = false;
+        loading.hidden = true;
+      }
+
+      // Phones read ASTC textures and computers DXT. The build carries the game data in both; a GPU given the wrong one
+      // would have to keep every texture uncompressed.
+      function dataFile() {
+        var astc = "d6bd2da529bcaf83332d839f4084fd90.astc.data.unityweb";
+        var useAstc = astc && gl.getExtension("WEBGL_compressed_texture_astc") && !gl.getExtension("WEBGL_compressed_texture_s3tc");
+        return useAstc ? astc : "a6d994c5743f3935806ecdd5e0ff2dd8.data.unityweb";
+      }
+
+      function start() {
+        notice.hidden = true;
+        loading.hidden = false;
+        var script = document.createElement("script");
+        script.src = "Build/e8d7d3ca4cf196040a766c95178b94ea.loader.js";
+        script.onerror = function () {
+          show("The game didn't load", "Check your connection and reload the page.");
+        };
+        script.onload = function () {
+          createUnityInstance(canvas, {
+            arguments: [],
+            dataUrl: "Build/" + dataFile(),
+            frameworkUrl: "Build/2d62217861a5d6fff4c22ae1f6fcf960.framework.js.unityweb",
+            codeUrl: "Build/49931c557d452114e8d784e8163ce712.wasm.unityweb",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "Baki Games",
+            productName: "Coldsnap",
+            productVersion: "0.1.0",
+            autoSyncPersistentDataPath: true,
+            devicePixelRatio: pixelRatio(),
+            showBanner: function (message, type) {
+              if (type === "error") show("Something went wrong", message);
+              else console.warn(message);
+            }
+          }, function (progress) {
+            var percent = Math.round(progress * 100);
+            fill.style.width = percent + "%";
+            track.setAttribute("aria-valuenow", percent);
+            status.textContent = progress < 0.9 ? "Loading… " + percent + "%" : "Almost there…";
+          }).then(function (instance) {
+            // The game is running but still compiling shaders and measuring the device behind this screen.
+            // It calls coldsnapReady when the picture is smooth; the timer is only a safety net.
+            fill.style.width = "100%";
+            status.textContent = "Warming up…";
+            var shown = false;
+            window.coldsnapReady = function () {
+              if (shown) return;
+              shown = true;
+              loading.hidden = true;
+              canvas.focus();
+            };
+            setTimeout(window.coldsnapReady, 20000);
+            var button = document.getElementById("fullscreen");
+            button.hidden = false;
+            button.onclick = function () { instance.SetFullscreen(1); };
+            if (mobile) offerInstall();
+          }).catch(function (message) {
+            show("The game couldn't start", String(message));
+          });
+        };
+        document.body.appendChild(script);
+      }
+
+      canvas.addEventListener("contextmenu", function (e) { e.preventDefault(); });   // right click aims
+      canvas.addEventListener("pointerdown", function () { canvas.focus(); });
+      // A new tip every few seconds while the game loads.
+      var tips = [
+        "Watch for breath. A man behind cover still has to breathe.",
+        "A red line in the snow means a marksman has you. Move.",
+        "When the whiteout hits, nobody can see far. Use it.",
+        "Red drums burn. Stand well back.",
+        "Out of the fight for a few seconds and you recover."
+      ];
+      var tip = 0;
+      var tipTimer = setInterval(function () {
+        if (loading.hidden) { clearInterval(tipTimer); return; }
+        tip = (tip + 1) % tips.length;
+        document.getElementById("hint").textContent = tips[tip];
+      }, 4500);
+      if (mobile) {
+        document.documentElement.classList.add("mobile");
+        document.getElementById("hint").textContent = "Left thumb moves, right thumb looks. Turn your phone sideways.";
+        document.addEventListener("touchend", goFullscreen);
+        // Keep drags and pinches in the game, not the page.
+        canvas.addEventListener("touchmove", function (e) { e.preventDefault(); }, { passive: false });
+        document.addEventListener("gesturestart", function (e) { e.preventDefault(); });
+        // Opened from the iPhone home screen, the page is laid out shorter than the screen in landscape and the strip
+        // by the home bar shows the page behind the game. Size the game from the screen itself there.
+        if (navigator.standalone) {
+          var fit = function () {
+            var landscape = window.innerWidth > window.innerHeight;
+            var w = landscape ? Math.max(screen.width, screen.height) : Math.min(screen.width, screen.height);
+            var h = landscape ? Math.min(screen.width, screen.height) : Math.max(screen.width, screen.height);
+            canvas.style.width = Math.max(w, window.innerWidth) + "px";
+            canvas.style.height = Math.max(h, window.innerHeight) + "px";
+            window.scrollTo(0, 0);
+          };
+          fit();
+          window.addEventListener("resize", fit);
+          window.addEventListener("orientationchange", function () { setTimeout(fit, 300); });
+        }
+      }
+
+      var gl = document.createElement("canvas").getContext("webgl2");
+      if (!gl) {
+        show("Your browser can't run this game", "It needs WebGL 2. Try an up-to-date version of Chrome, Edge, Firefox or Safari.");
+      } else {
+        start();
+      }
+    })();
+  </script>
+</body>
+</html>

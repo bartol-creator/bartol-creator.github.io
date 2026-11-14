@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#151d1e">
+  <title>Iron _ Ink</title>
+  <meta name="description" content="Iron & Ink: a grand strategy game of the Second World War, 1936 to 1949. Play free in your browser.">
+  <link rel="stylesheet" href="TemplateData/style.css">
+</head>
+<body>
+  <canvas id="game" tabindex="-1" aria-label="Iron _ Ink"></canvas>
+
+  <div id="bar">
+    <a id="home" href="../../">&larr; All games</a>
+    <a id="download" href="download/">Download</a>
+    <button id="fullscreen" type="button" hidden>Fullscreen</button>
+  </div>
+
+  <div id="loading">
+    <div class="press" aria-hidden="true">
+      <div class="roller l"></div><div class="drum"></div><div class="roller r"></div>
+      <div class="sheet">
+        <div class="masthead" id="masthead"></div>
+        <div class="edition" id="edition">SPECIAL EDITION · 1 JANUARY 1936</div>
+      </div>
+    </div>
+    <div id="track" role="progressbar" aria-label="Loading" aria-valuemin="0" aria-valuemax="100"><div id="fill"></div></div>
+    <p id="status">SETTING THE TYPE&hellip; 0%</p>
+    <p class="hint" id="hint">The presses are rolling. Europe, January 1936: the Rhineland is still demilitarised.</p>
+  </div>
+
+  <div id="notice" hidden>
+    <h2 id="notice-title"></h2>
+    <p id="notice-text"></p>
+    <a href="../../">Back to all games</a>
+  </div>
+
+  <div id="phone" hidden>
+    <div class="stamp">DESKTOP DISPATCH</div>
+    <h2>Iron &amp; Ink</h2>
+    <p>This is a grand strategy game played with a mouse and keyboard. Open this page on a computer to take command.</p>
+    <a href="../../">Back to all games</a>
+  </div>
+
+  <p class="advisory">A historical strategy game about the Second World War.</p>
+
+  <script>
+    (function () {
+      var canvas = document.getElementById("game");
+      var loading = document.getElementById("loading");
+      var fill = document.getElementById("fill");
+      var track = document.getElementById("track");
+      var status = document.getElementById("status");
+      var notice = document.getElementById("notice");
+      var phone = /iPhone|iPod|Android.*Mobile/i.test(navigator.userAgent);
+
+      // Masthead letters ink in one by one, like type hitting the sheet.
+      var title = "IRON & INK", masthead = document.getElementById("masthead");
+      for (var i = 0; i < title.length; i++) {
+        var s = document.createElement("span");
+        s.textContent = title[i] === " " ? " " : title[i];
+        s.style.animationDelay = (i * 0.12) + "s";
+        masthead.appendChild(s);
+      }
+
+      // Desktop: Retina is costly and barely visible on a strategy map.
+      function pixelRatio() { return Math.min(window.devicePixelRatio || 1, 1.5); }
+
+      function show(title, text) {
+        document.getElementById("notice-title").textContent = title;
+        document.getElementById("notice-text").textContent = text;
+        notice.hidden = false;
+        loading.hidden = true;
+      }
+
+      function start() {
+        var script = document.createElement("script");
+        script.src = "Build/41d6e9a9e85d5dc5c80ded129ee1db9e.loader.js";
+        script.onerror = function () { show("The presses jammed", "The game didn't load. Check your connection and reload the page."); };
+        script.onload = function () {
+          createUnityInstance(canvas, {
+            arguments: [],
+            dataUrl: "Build/96c499280a183a05afc5e522083d78bf.data.unityweb",
+            frameworkUrl: "Build/94d03a07b2101c5cc9a2ed698f89d9e8.framework.js.unityweb",
+            codeUrl: "Build/126cc60698c04afa4bf539b149b4bba9.wasm.unityweb",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "Baki Games",
+            productName: "Iron _ Ink",
+            productVersion: "1.1",
+            autoSyncPersistentDataPath: true,
+            devicePixelRatio: pixelRatio(),
+            showBanner: function (message, type) {
+              if (type === "error") show("Something went wrong", message);
+              else console.warn(message);
+            }
+          }, function (progress) {
+            var percent = Math.round(progress * 100);
+            fill.style.width = percent + "%";
+            track.setAttribute("aria-valuenow", percent);
+            status.textContent = progress < 0.9 ? "SETTING THE TYPE… " + percent + "%" : "INKING THE PLATES…";
+          }).then(function (instance) {
+            loading.hidden = true;
+            document.querySelector(".advisory").hidden = true;
+            canvas.focus();
+            var button = document.getElementById("fullscreen");
+            button.hidden = false;
+            button.onclick = function () { instance.SetFullscreen(1); };
+            window.ironInk = instance;
+            if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(function () {});
+          }).catch(function (message) {
+            show("The game couldn't start", String(message));
+          });
+        };
+        document.body.appendChild(script);
+      }
+
+      canvas.addEventListener("contextmenu", function (e) { e.preventDefault(); });   // right click gives orders
+      canvas.addEventListener("pointerdown", function () { canvas.focus(); });
+
+      var tips = [
+        "TIP: Supply hubs only work when a railway connects them to your capital.",
+        "TIP: A division's armour only helps if the enemy can't pierce it.",
+        "TIP: Democracies can only justify wars once world tension is high.",
+        "TIP: Double-click a city to look into its main square as it is right now.",
+        "TIP: Your newspapers write what your press law allows them to write.",
+        "TIP: Mud in spring and autumn halves your advance. Plan around the rasputitsa."
+      ];
+      var tip = 0;
+      var tipTimer = setInterval(function () {
+        if (loading.hidden) { clearInterval(tipTimer); return; }
+        tip = (tip + 1) % tips.length;
+        document.getElementById("hint").textContent = tips[tip];
+      }, 5000);
+
+      var gl = document.createElement("canvas").getContext("webgl2");
+      if (phone && location.search.indexOf("autotest") < 0) {
+        loading.hidden = true;
+        document.getElementById("phone").hidden = false;
+      } else if (!gl) {
+        show("Your browser can't run this game", "It needs WebGL 2. Try an up-to-date version of Chrome, Edge, Firefox or Safari.");
+      } else {
+        start();
+      }
+    })();
+  </script>
+</body>
+</html>
