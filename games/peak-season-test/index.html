@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Peak Season">
+  <link rel="icon" href="TemplateData/icon-192.png">
+  <link rel="manifest" href="TemplateData/manifest.json">
+  <link rel="apple-touch-icon" href="TemplateData/icon-180.png">
+  <meta name="theme-color" content="#3d7dd1">
+  <title>Peak Season</title>
+  <meta name="description" content="Ski or snowboard down a hazy low-poly mountain, hit the park and chain tricks. Play free in your browser, on a computer or a phone.">
+  <link rel="stylesheet" href="TemplateData/style.css">
+</head>
+<body>
+  <canvas id="game" tabindex="-1" aria-label="Peak Season"></canvas>
+
+  <div id="bar">
+    <a id="home" href="../../">&larr; All games</a>
+    <button id="fullscreen" type="button" hidden>Fullscreen</button>
+  </div>
+
+  <div id="loading">
+    <svg class="range" viewBox="0 0 1200 400" preserveAspectRatio="none" aria-hidden="true">
+      <polygon fill="#c9d6ec" points="0,250 140,150 260,210 420,90 560,200 700,120 860,230 1000,110 1200,220 1200,400 0,400"/>
+      <polygon fill="#b4c5e2" points="420,90 500,400 330,400"/>
+      <polygon fill="#b4c5e2" points="1000,110 1080,400 930,400"/>
+      <polygon fill="#f4f6fb" points="0,330 180,230 320,300 520,170 700,290 860,210 1060,300 1200,260 1200,400 0,400"/>
+      <polygon fill="#dce5f3" points="520,170 610,400 470,400"/>
+      <polygon fill="#dce5f3" points="860,210 960,400 820,400"/>
+      <path d="M520 178 L500 250 L540 300 L515 360 L530 400" fill="none" stroke="#f98029" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <p class="tag">Test build &middot; M0</p>
+    <h1 class="logo">PEAK SEASON</h1>
+    <div class="tank">
+      <div id="track" role="progressbar" aria-label="Loading" aria-valuemin="0" aria-valuemax="100"><div id="fill"></div></div>
+    </div>
+    <p id="status">Waxing skis&hellip; 0%</p>
+    <p class="hint" id="hint">A/D steer &middot; W tuck &middot; S brake &middot; hold Space to jump &middot; Shift grab &middot; C manual &middot; R reset &middot; T back to the top</p>
+  </div>
+
+  <div id="notice" hidden>
+    <h2 id="notice-title"></h2>
+    <p id="notice-text"></p>
+    <a href="../../">Back to all games</a>
+  </div>
+
+  <div id="rotate" role="alertdialog" aria-live="polite" aria-labelledby="rotate-title">
+    <div class="card">
+      <svg class="phone" viewBox="0 0 64 64" aria-hidden="true"><rect x="20" y="6" width="24" height="52" rx="4"/><line x1="29" y1="51" x2="35" y2="51"/></svg>
+      <p class="tag">Peak Season plays sideways</p>
+      <p id="rotate-title" class="title">Turn your phone</p>
+      <p class="sub">The slope is wider that way.</p>
+    </div>
+  </div>
+  <button id="install" type="button" hidden>For full screen, tap Share, then Add to Home Screen, and open it from there. &times;</button>
+
+  <script>
+    (function () {
+      var canvas = document.getElementById("game");
+      var loading = document.getElementById("loading");
+      var fill = document.getElementById("fill");
+      var track = document.getElementById("track");
+      var status = document.getElementById("status");
+      var notice = document.getElementById("notice");
+      var mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      window.peakMobile = mobile;   // the game asks for it: Unity takes an iPad for a Mac
+
+      // Phones get pixels up to a budget of 2 million, computers up to 1.5x within 3.7 million (as Coldsnap measured).
+      function pixelRatio() {
+        var native = window.devicePixelRatio || 1;
+        if (!mobile) return Math.min(native, 1.5, Math.sqrt(3700000 / (screen.width * screen.height)));
+        return Math.min(native, Math.sqrt(2000000 / (screen.width * screen.height)));
+      }
+
+      // Browsers only allow fullscreen in response to a tap, so every tap asks until it's granted.
+      function goFullscreen() {
+        var root = document.documentElement;
+        var request = root.requestFullscreen || root.webkitRequestFullscreen;
+        if (!request || document.fullscreenElement || document.webkitFullscreenElement) return;
+        var result = request.call(root, { navigationUI: "hide" });
+        if (result && result.then) result.then(function () {
+          if (screen.orientation && screen.orientation.lock) return screen.orientation.lock("landscape");
+        }).catch(function () {});
+      }
+
+      // iPhone Safari has no fullscreen for pages; only a game opened from the Home Screen fills the display.
+      function offerInstall() {
+        var iphone = /iPhone|iPod/i.test(navigator.userAgent);
+        var dismissed = false;
+        try { dismissed = localStorage.getItem("peak-install-hint") === "1"; } catch (e) {}
+        if (!iphone || navigator.standalone || dismissed) return;
+        var hint = document.getElementById("install");
+        hint.hidden = false;
+        setTimeout(function () { hint.hidden = true; }, 10000);
+        hint.onclick = function () {
+          hint.hidden = true;
+          try { localStorage.setItem("peak-install-hint", "1"); } catch (e) {}
+        };
+      }
+
+      function show(title, text) {
+        document.getElementById("notice-title").textContent = title;
+        document.getElementById("notice-text").textContent = text;
+        notice.hidden = false;
+        loading.hidden = true;
+      }
+
+      // Waxing, then the rest of the pre-ride ritual as the bar fills.
+      var steps = ["Waxing skis", "Grooming the run", "Sharpening edges", "Building the kickers"];
+      function start() {
+        notice.hidden = true;
+        loading.hidden = false;
+        var script = document.createElement("script");
+        script.src = "Build/e442c4f727db17443d44d663cf1c6991.loader.js";
+        script.onerror = function () {
+          show("The game didn't load", "Check your connection and reload the page.");
+        };
+        script.onload = function () {
+          createUnityInstance(canvas, {
+            arguments: [],
+            dataUrl: "Build/1f1ba034fe3ceaf7f4ffd597fdfbb01e.data.unityweb",
+            frameworkUrl: "Build/e5766da1f9ee47069c7bb53bd4a6c89e.framework.js.unityweb",
+            codeUrl: "Build/aab2c7aff51c65a31ee2f77d4a7f2cab.wasm.unityweb",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "Baki Games",
+            productName: "Peak Season",
+            productVersion: "0.0.1",
+            devicePixelRatio: pixelRatio(),
+            showBanner: function (message, type) {
+              if (type === "error") show("Something went wrong", message);
+              else console.warn(message);
+            }
+          }, function (progress) {
+            var percent = Math.round(progress * 100);
+            fill.style.width = percent + "%";
+            track.setAttribute("aria-valuenow", percent);
+            var step = steps[Math.min(steps.length - 1, Math.floor(progress * steps.length))];
+            status.textContent = progress < 0.9 ? step + "… " + percent + "%" : "Almost there…";
+          }).then(function (instance) {
+            // The game builds the mountain and draws its first frames behind this screen, then calls peakReady.
+            window.peakInstance = instance;   // tests drive the game through it
+            fill.style.width = "100%";
+            status.textContent = "Shaping the mountain…";
+            var shown = false;
+            window.peakReady = function () {
+              if (shown) return;
+              shown = true;
+              loading.hidden = true;
+              canvas.focus();
+            };
+            setTimeout(window.peakReady, 20000);
+            var button = document.getElementById("fullscreen");
+            button.hidden = false;
+            button.onclick = function () { instance.SetFullscreen(1); };
+            if (mobile) offerInstall();
+          }).catch(function (message) {
+            show("The game couldn't start", String(message));
+          });
+        };
+        document.body.appendChild(script);
+      }
+
+      canvas.addEventListener("contextmenu", function (e) { e.preventDefault(); });   // right drag looks around
+      canvas.addEventListener("pointerdown", function () { canvas.focus(); });
+      // Keys the browser would otherwise act on (Tab moves focus, Space scrolls).
+      window.addEventListener("keydown", function (e) {
+        if (e.key === "Tab" || e.key === " " || e.key.indexOf("Arrow") === 0) e.preventDefault();
+      });
+
+      if (mobile) {
+        document.documentElement.classList.add("mobile");
+        document.getElementById("hint").textContent = "Left thumb steers. JUMP and GRAB on the right. Hold JUMP with the stick pushed all the way for a manual.";
+        document.addEventListener("touchend", goFullscreen);
+        canvas.addEventListener("touchmove", function (e) { e.preventDefault(); }, { passive: false });
+        document.addEventListener("gesturestart", function (e) { e.preventDefault(); });
+      }
+
+      var gl = document.createElement("canvas").getContext("webgl2");
+      if (!gl) {
+        show("Your browser can't run this game", "It needs WebGL 2. Try an up-to-date version of Chrome, Edge, Firefox or Safari.");
+      } else {
+        start();
+      }
+    })();
+  </script>
+</body>
+</html>
