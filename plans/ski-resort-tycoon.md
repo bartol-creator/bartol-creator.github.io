@@ -360,7 +360,7 @@ combo score   = Σ trick points × combo multiplier (+1 per trick, +0.5 per dist
 ## 12. Technical architecture
 
 ### 12.1 Project setup
-- **Unity 6 LTS**, URP (mobile-friendly renderer asset plus a desktop "high" asset chosen at runtime), and the new Input System.
+- **Unity 6000.6.6f1** (Unity 6), URP (mobile-friendly renderer asset plus a desktop "high" asset chosen at runtime), and the new Input System.
 - **Packages:** Cinemachine, Addressables, Burst, Collections, Mathematics, Timeline, TextMeshPro and UI Toolkit (or uGUI; see §12.6).
 - **Build:** WebGL, Brotli, a custom WebGL template forked from Coldsnap's (loader, rotate prompt, fullscreen, PWA), and **ASTC plus DXT** texture variants.
 
@@ -498,8 +498,8 @@ Each milestone ends with a playable build at the test URL.
 **Decided:**
 - Title: **Peak Season** (`games/peak-season/`)
 - Music and SFX: free-licence (CC0 first, CC-BY credited)
+- Unity project: `~/UnityProjects/PeakSeason` on the developer's Mac, Unity **6000.6.6f1** (Unity 6), URP blank template, WebGL module installed
 - Slope colours: European (beginner area, blue, red, black, orange ski routes)
 
 **Still open:**
-1. **Unity project location and version.** The repo only holds builds; the project will be created with Unity Hub on the developer's machine. The plan assumes Unity 6 LTS.
-2. **Guest characters at close range:** faceless and simple (closest to the target style), or simple faces when you follow one?
+1. **Guest characters at close range:** faceless and simple (closest to the target style), or simple faces when you follow one?
