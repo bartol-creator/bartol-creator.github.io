@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="noindex">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Coldsnap">
+  <link rel="icon" href="TemplateData/icon-192.png">
+  <link rel="manifest" href="TemplateData/manifest.json">
+  <link rel="apple-touch-icon" href="TemplateData/icon-180.png">
+  <meta name="theme-color" content="#0b1118">
+  <title>Coldsnap</title>
+  <meta name="description" content="Third-person shooter at an Arctic research station. Play free in your browser, on a computer or a phone, no download.">
+  <link rel="stylesheet" href="TemplateData/style.css">
+</head>
+<body>
+  <canvas id="game" tabindex="-1" aria-label="Coldsnap"></canvas>
+
+  <div id="bar">
+    <a id="home" href="../../">&larr; All games</a>
+    <button id="fullscreen" type="button" hidden>Fullscreen</button>
+  </div>
+
+  <div id="loading">
+    <p class="tag">Kaamos Station &middot; 69&deg;N</p>
+    <h1 class="logo">Coldsnap</h1>
+    <div class="rule"></div>
+    <div class="tank">
+      <div id="track" role="progressbar" aria-label="Loading" aria-valuemin="0" aria-valuemax="100"><div id="fill"></div></div>
+    </div>
+    <p id="status">Loading&hellip; 0%</p>
+    <p class="hint" id="hint">Varg Security holds the station. You go in alone.</p>
+  </div>
+
+  <div id="notice" hidden>
+    <h2 id="notice-title"></h2>
+    <p id="notice-text"></p>
+    <a href="../../">Back to all games</a>
+  </div>
+
+  <div id="rotate" role="alertdialog" aria-live="polite" aria-labelledby="rotate-title">
+    <div class="card">
+      <svg class="phone" viewBox="0 0 64 64" aria-hidden="true"><rect x="20" y="6" width="24" height="52" rx="4"/><line x1="29" y1="51" x2="35" y2="51"/></svg>
+      <p class="tag">Coldsnap plays sideways</p>
+      <p id="rotate-title" class="title">Turn your phone</p>
+      <p class="sub">The game pauses until you do.</p>
+    </div>
+  </div>
+  <div id="safe" aria-hidden="true"></div>
+  <button id="install" type="button" hidden>For full screen, tap Share, then Add to Home Screen, and open it from there. &times;</button>
+
+  <script>
+    (function () {
+      var canvas = document.getElementById("game");
+      var loading = document.getElementById("loading");
+      var fill = document.getElementById("fill");
+      var track = document.getElementById("track");
+      var status = document.getElementById("status");
+      var notice = document.getElementById("notice");
+      var mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      window.coldsnapMobile = mobile;   // the game asks for it: Unity takes an iPad for a Mac
+
+      // Phones get pixels up to a budget of 2 million (about 2.4x on an iPhone 16 Pro instead of 3x). The canvas size
+      // sets a cost the game's own render scale cannot reduce: the copy to the canvas, the HUD and Safari's compositing.
+      // At 4.2 million an iPhone 16 Pro could not get under 17 ms a frame at any render scale (Bench, 2026-11-16).
+      // Computers get up to 1.5x, within a budget of 3.7 million pixels: on a 5K screen in full screen the game at 1.5x
+      // took an M4 19 ms a frame and at 1.0x 11 ms (Bench, 2026-11-17); a 1080p screen still gets 1.34x.
+      function pixelRatio() {
+        var native = window.devicePixelRatio || 1;
+        if (!mobile) return Math.min(native, 1.5, Math.sqrt(3700000 / (screen.width * screen.height)));
+        return Math.min(native, Math.sqrt(2000000 / (screen.width * screen.height)));
+      }
+
+      // Browsers only allow fullscreen in response to a tap, so every tap asks until it's granted.
+      function goFullscreen() {
+        var root = document.documentElement;
+        var request = root.requestFullscreen || root.webkitRequestFullscreen;
+        if (!request || document.fullscreenElement || document.webkitFullscreenElement) return;
+        var result = request.call(root, { navigationUI: "hide" });
+        if (result && result.then) result.then(function () {
+          if (screen.orientation && screen.orientation.lock) return screen.orientation.lock("landscape");
+        }).catch(function () {});
+      }
+
+      // iPhone Safari has no fullscreen for pages; only a game opened from the Home Screen fills the display.
+      function offerInstall() {
+        var iphone = /iPhone|iPod/i.test(navigator.userAgent);
+        var dismissed = false;
+        try { dismissed = localStorage.getItem("coldsnap-install-hint") === "1"; } catch (e) {}
+        if (!iphone || navigator.standalone || dismissed) return;
+        var hint = document.getElementById("install");
+        hint.hidden = false;
+        setTimeout(function () { hint.hidden = true; }, 10000);   // it covers the menus' headings; it comes back next visit
+        hint.onclick = function () {
+          hint.hidden = true;
+          try { localStorage.setItem("coldsnap-install-hint", "1"); } catch (e) {}
+        };
+      }
+
+      function show(title, text) {
+        document.getElementById("notice-title").textContent = title;
+        document.getElementById("notice-text").textContent = text;
+        notice.hidden = false;
+        loading.hidden = true;
+      }
+
+      // Phones read ASTC textures and computers DXT. The build carries the game data in both; a GPU given the wrong one
+      // would have to keep every texture uncompressed.
+      function dataFile() {
+        var astc = "b3db9170b9ddfa1788f81a0dee8f1e0e.astc.data.unityweb";
+        var useAstc = astc && gl.getExtension("WEBGL_compressed_texture_astc") && !gl.getExtension("WEBGL_compressed_texture_s3tc");
+        if (/[?&]tex=astc/.test(location.search) && gl.getExtension("WEBGL_compressed_texture_astc")) useAstc = true;   // tests: see what phones see
+        window.coldsnapAstc = !!useAstc;   // the game fetches kits in the same texture format
+        return useAstc ? astc : "272b12c6df3cf5a0255971393879ca8c.data.unityweb";
+      }
+
+      // Unity asks for the mouse at moments the browser may refuse (no click just then, the tab not focused). The
+      // refusal is harmless (the next click captures it), but left unhandled Unity reports it in a crash pop-up.
+      var lock = Element.prototype.requestPointerLock;
+      if (lock) Element.prototype.requestPointerLock = function (options) {
+        try {
+          var asked = lock.call(this, options);
+          if (asked && asked.catch) asked.catch(function (e) { console.warn("pointer lock refused: " + e); });
+          return asked;
+        } catch (e) { console.warn("pointer lock refused: " + e); }
+      };
+
+      function start() {
+        notice.hidden = true;
+        loading.hidden = false;
+        var script = document.createElement("script");
+        script.src = "Build/6754c708cf6d141b491ead4e05a0c2eb.loader.js";
+        script.onerror = function () {
+          show("The game didn't load", "Check your connection and reload the page.");
+        };
+        script.onload = function () {
+          createUnityInstance(canvas, {
+            arguments: [],
+            dataUrl: "Build/" + dataFile(),
+            frameworkUrl: "Build/d3cbbc66896b5df08e1110de46c63ea3.framework.js.unityweb",
+            codeUrl: "Build/4a560f7894bb81da0a0d60d781c1fb86.wasm.unityweb",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "Baki Games",
+            productName: "Coldsnap",
+            productVersion: "0.1.0",
+            autoSyncPersistentDataPath: true,
+            devicePixelRatio: pixelRatio(),
+            errorHandler: function (error) { return /pointer lock/i.test(String(error)); },   // see requestPointerLock above
+            showBanner: function (message, type) {
+              if (type === "error") show("Something went wrong", message);
+              else console.warn(message);
+            }
+          }, function (progress) {
+            var percent = Math.round(progress * 100);
+            fill.style.width = percent + "%";
+            track.setAttribute("aria-valuenow", percent);
+            status.textContent = progress < 0.9 ? "Loading… " + percent + "%" : "Almost there…";
+          }).then(function (instance) {
+            // The game is running but still compiling shaders and measuring the device behind this screen.
+            // It calls coldsnapReady when the picture is smooth; the timer is only a safety net.
+            window.coldsnapInstance = instance;   // tests read the game's memory through it
+            fill.style.width = "100%";
+            status.textContent = "Warming up…";
+            var shown = false;
+            window.coldsnapReady = function () {
+              if (shown) return;
+              shown = true;
+              loading.hidden = true;
+              canvas.focus();
+            };
+            setTimeout(window.coldsnapReady, 20000);
+            var button = document.getElementById("fullscreen");
+            button.hidden = false;
+            button.onclick = function () { instance.SetFullscreen(1); };
+            if (mobile) offerInstall();
+          }).catch(function (message) {
+            show("The game couldn't start", String(message));
+          });
+        };
+        document.body.appendChild(script);
+      }
+
+      canvas.addEventListener("contextmenu", function (e) { e.preventDefault(); });   // right click aims
+      canvas.addEventListener("pointerdown", function () { canvas.focus(); });
+      // A new tip every few seconds while the game loads.
+      var tips = [
+        "Watch for breath. A man behind cover still has to breathe.",
+        "A red line in the snow means a marksman has you. Move.",
+        "When the whiteout hits, nobody can see far. Use it.",
+        "Red drums burn. Stand well back.",
+        "Out of the fight for a few seconds and you recover."
+      ];
+      var tip = 0;
+      var tipTimer = setInterval(function () {
+        if (loading.hidden) { clearInterval(tipTimer); return; }
+        tip = (tip + 1) % tips.length;
+        document.getElementById("hint").textContent = tips[tip];
+      }, 4500);
+      // A phone held upright still plays sideways, like a landscape app: the whole page is turned a quarter clockwise
+      // (notch on the game's left, home bar on its right). iPhone Safari cannot lock the orientation, so the page does
+      // the turning itself. The game reads touches and its own size through the browser, so while turned, touch and
+      // mouse positions are mapped into the turned frame and the canvas reports its unturned box.
+      // Only with `?turn` in the address now: by default an upright phone gets a prompt to turn it instead (below).
+      function turnSideways() {
+        var root = document.documentElement;
+        window.coldsnapTurned = false;
+        function map(proto, names) {
+          var gx = Object.getOwnPropertyDescriptor(proto, names[0]), gy = Object.getOwnPropertyDescriptor(proto, names[1]);
+          if (!gx || !gy || !gx.get || !gy.get) return;
+          Object.defineProperty(proto, names[0], { configurable: true, get: function () {
+            return window.coldsnapTurned ? gy.get.call(this) : gx.get.call(this);
+          } });
+          Object.defineProperty(proto, names[1], { configurable: true, get: function () {
+            return window.coldsnapTurned ? window.innerWidth - gx.get.call(this) : gy.get.call(this);
+          } });
+        }
+        [window.Touch && Touch.prototype, window.MouseEvent && MouseEvent.prototype].forEach(function (proto) {
+          if (!proto) return;
+          map(proto, ["clientX", "clientY"]);
+          map(proto, ["pageX", "pageY"]);
+        });
+        var box = canvas.getBoundingClientRect;
+        canvas.getBoundingClientRect = function () {
+          if (!window.coldsnapTurned) return box.call(canvas);
+          var w = canvas.clientWidth, h = canvas.clientHeight;
+          return { left: 0, top: 0, right: w, bottom: h, width: w, height: h, x: 0, y: 0 };
+        };
+        function update() {
+          var w = window.innerWidth, h = window.innerHeight;
+          window.coldsnapTurned = h > w;
+          // opened from the iPhone home screen, the upright page is laid out shorter than the screen (the strip by
+          // the home bar showed the page behind the game): the turned page takes the screen's own length
+          if (window.coldsnapTurned && navigator.standalone) h = Math.max(h, screen.width, screen.height);
+          root.classList.toggle("turned", window.coldsnapTurned);
+          document.body.style.width = window.coldsnapTurned ? h + "px" : "";
+          document.body.style.height = window.coldsnapTurned ? w + "px" : "";
+          document.body.style.transform = window.coldsnapTurned ? "translateX(" + w + "px) rotate(90deg)" : "";
+          // the page's own width and height for the styles (vw and vh would still measure the phone upright)
+          root.style.setProperty("--vw", window.coldsnapTurned ? h / 100 + "px" : "1vw");
+          root.style.setProperty("--vh", window.coldsnapTurned ? w / 100 + "px" : "1vh");
+          window.scrollTo(0, 0);
+        }
+        update();
+        window.addEventListener("resize", update);
+        window.addEventListener("orientationchange", function () { setTimeout(update, 300); });
+      }
+
+      if (mobile) {
+        document.documentElement.classList.add("mobile");
+        document.getElementById("hint").textContent = "Left thumb moves, right thumb looks.";
+        if (/[?&]turn/.test(location.search)) turnSideways();
+        else {
+          // held upright, the prompt to turn the phone covers the game (the styles show it in portrait) and the game is
+          // told every second, so a mission that starts behind the prompt stops too
+          document.documentElement.classList.add("upright");
+          var tellUpright = function () {
+            if (window.innerHeight > window.innerWidth && window.coldsnapInstance) window.coldsnapInstance.SendMessage("Mission Control", "PageUpright");
+          };
+          window.addEventListener("resize", tellUpright);
+          setInterval(tellUpright, 1000);
+        }
+        document.addEventListener("touchend", goFullscreen);
+        // Keep drags and pinches in the game, not the page.
+        canvas.addEventListener("touchmove", function (e) { e.preventDefault(); }, { passive: false });
+        document.addEventListener("gesturestart", function (e) { e.preventDefault(); });
+        // Opened from the iPhone home screen, the page is laid out shorter than the screen in landscape and the strip
+        // by the home bar shows the page behind the game. Size the game from the screen itself there.
+        if (navigator.standalone) {
+          var fit = function () {
+            if (window.coldsnapTurned) { canvas.style.width = canvas.style.height = ""; return; }   // fills the turned page
+            var landscape = window.innerWidth > window.innerHeight;
+            var w = landscape ? Math.max(screen.width, screen.height) : Math.min(screen.width, screen.height);
+            var h = landscape ? Math.min(screen.width, screen.height) : Math.max(screen.width, screen.height);
+            canvas.style.width = Math.max(w, window.innerWidth) + "px";
+            canvas.style.height = Math.max(h, window.innerHeight) + "px";
+            window.scrollTo(0, 0);
+          };
+          fit();
+          window.addEventListener("resize", fit);
+          window.addEventListener("orientationchange", function () { setTimeout(fit, 300); });
+        }
+      }
+
+      var gl = document.createElement("canvas").getContext("webgl2");
+      if (!gl) {
+        show("Your browser can't run this game", "It needs WebGL 2. Try an up-to-date version of Chrome, Edge, Firefox or Safari.");
+      } else {
+        start();
+      }
+    })();
+  </script>
+</body>
+</html>
