@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Emberfall">
+  <link rel="manifest" href="TemplateData/manifest.json?v=3">
+  <link rel="apple-touch-icon" href="TemplateData/icon-180.png?v=3">
+  <meta name="theme-color" content="#0d0806">
+  <title>Emberfall</title>
+  <meta name="description" content="Play Emberfall free in your browser.">
+  <link rel="stylesheet" href="TemplateData/style.css">
+</head>
+<body>
+  <canvas id="game" tabindex="-1" aria-label="Emberfall"></canvas>
+
+  <div id="bar">
+    <a id="home" href="../../">&larr; All games</a>
+    <button id="fullscreen" type="button" hidden>Fullscreen</button>
+  </div>
+
+  <div id="loading">
+    <div class="glow" aria-hidden="true"></div>
+    <h1>EMBERFALL</h1>
+    <div id="track" role="progressbar" aria-label="Loading" aria-valuemin="0" aria-valuemax="100"><div id="fill"></div></div>
+    <p id="status">Kindling&hellip; 0%</p>
+    <p class="hint" id="hint">Move with WASD, aim with the mouse, Space to dash. You fire automatically. Gamepads work too.</p>
+  </div>
+
+  <div id="notice" hidden>
+    <h2 id="notice-title"></h2>
+    <p id="notice-text"></p>
+    <a href="../../">Back to all games</a>
+  </div>
+
+  <div id="rotate" aria-live="polite">Turn your phone sideways to play</div>
+  <div id="safe" aria-hidden="true"></div>
+  <button id="update" type="button" hidden>A new version of the game is out. Tap to update.</button>
+  <button id="install" type="button" hidden>For full screen, tap Share, then Add to Home Screen, and open it from there. &times;</button>
+
+  <script>
+    (function () {
+      var canvas = document.getElementById("game");
+      var loading = document.getElementById("loading");
+      var fill = document.getElementById("fill");
+      var track = document.getElementById("track");
+      var status = document.getElementById("status");
+      var notice = document.getElementById("notice");
+      var mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+      // Phones are held close, so they get every pixel up to a budget that keeps big tablets affordable. On desktop
+      // Retina is costly and barely visible.
+      function pixelRatio() {
+        var native = window.devicePixelRatio || 1;
+        if (!mobile) return Math.min(native, 1.5);
+        return Math.min(native, Math.sqrt(4200000 / (screen.width * screen.height)));
+      }
+
+      // Browsers only allow fullscreen in response to a tap, so every tap asks until it's granted.
+      function goFullscreen() {
+        var root = document.documentElement;
+        var request = root.requestFullscreen || root.webkitRequestFullscreen;
+        if (!request || document.fullscreenElement || document.webkitFullscreenElement) return;
+        var result = request.call(root, { navigationUI: "hide" });
+        if (result && result.then) result.then(function () {
+          if (screen.orientation && screen.orientation.lock) return screen.orientation.lock("landscape");
+        }).catch(function () {});
+      }
+
+      // iPhone Safari has no fullscreen for pages; only a game opened from the Home Screen fills the display.
+      function offerInstall() {
+        var iphone = /iPhone|iPod/i.test(navigator.userAgent);
+        var dismissed = false;
+        try { dismissed = localStorage.getItem("emberfall-install-hint") === "1"; } catch (e) {}
+        if (!iphone || navigator.standalone || dismissed) return;
+        var hint = document.getElementById("install");
+        hint.hidden = false;
+        hint.onclick = function () {
+          hint.hidden = true;
+          try { localStorage.setItem("emberfall-install-hint", "1"); } catch (e) {}
+        };
+      }
+
+      // A page left open (above all a Home Screen app, which iOS only suspends) keeps running the build it
+      // started with. Whenever it comes back, compare that build with the live page's and move to the new one:
+      // straight away after a long break, otherwise with a tap so a run isn't cut short.
+      function watchForUpdates() {
+        var running = "Build/f9a1c505d81ba25bc6d0cd142a36b7e5.loader.js";
+        var hiddenAt = 0;
+        function update() {
+          var url = new URL(location.href);
+          url.searchParams.set("fresh", Date.now());
+          location.replace(url.toString());
+        }
+        function check(resumed) {
+          fetch(location.pathname + "?check=" + Date.now(), { cache: "no-store" })
+            .then(function (r) { return r.ok ? r.text() : ""; })
+            .then(function (html) {
+              var live = /Build\/[^"]+\.loader\.js/.exec(html);
+              if (!live || live[0] === running) return;
+              if (resumed) return update();
+              var button = document.getElementById("update");
+              button.hidden = false;
+              button.onclick = update;
+            }).catch(function () {});
+        }
+        document.addEventListener("visibilitychange", function () {
+          if (document.hidden) { hiddenAt = Date.now(); return; }
+          check(hiddenAt > 0 && Date.now() - hiddenAt > 10 * 60 * 1000);
+        });
+        setInterval(function () { if (!document.hidden) check(false); }, 10 * 60 * 1000);
+        check(false);
+      }
+
+      function show(title, text) {
+        document.getElementById("notice-title").textContent = title;
+        document.getElementById("notice-text").textContent = text;
+        notice.hidden = false;
+        loading.hidden = true;
+      }
+
+      function start() {
+        notice.hidden = true;
+        loading.hidden = false;
+        var script = document.createElement("script");
+        script.src = "Build/f9a1c505d81ba25bc6d0cd142a36b7e5.loader.js";
+        // A page cached from before an update points at build files that no longer exist (the server
+        // answers with an HTML 404). Reload once past the cache before giving up.
+        function reloadFresh() {
+          try {
+            if (sessionStorage.getItem("emberfall-fresh") === "1") return false;
+            sessionStorage.setItem("emberfall-fresh", "1");
+          } catch (e) { return false; }
+          var url = new URL(location.href);
+          url.searchParams.set("fresh", Date.now());
+          location.replace(url.toString());
+          return true;
+        }
+        script.onerror = function () {
+          if (reloadFresh()) return;
+          show("The game didn't load", "Check your connection and reload the page.");
+        };
+        script.onload = function () {
+          createUnityInstance(canvas, {
+            arguments: [],
+            dataUrl: "Build/d9ba05dda937be9d88bdb537de39f3b2.data.unityweb",
+            frameworkUrl: "Build/ebc0f6c41242bc4301c4716bc629bc48.framework.js.unityweb",
+            codeUrl: "Build/2a6e36c743c43000454716da325a406c.wasm.unityweb",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "Emberfall",
+            productName: "Emberfall",
+            productVersion: "0.1.0",
+            autoSyncPersistentDataPath: true,
+            devicePixelRatio: pixelRatio(),
+            showBanner: function (message, type) {
+              if (type === "error") show("Something went wrong", message);
+              else console.warn(message);
+            }
+          }, function (progress) {
+            var percent = Math.round(progress * 100);
+            fill.style.width = percent + "%";
+            track.setAttribute("aria-valuenow", percent);
+            status.textContent = progress < 0.9 ? "Kindling… " + percent + "%" : "Lighting the lantern…";
+          }).then(function (instance) {
+            try { sessionStorage.removeItem("emberfall-fresh"); } catch (e) {}
+            loading.hidden = true;
+            canvas.focus();
+            var button = document.getElementById("fullscreen");
+            button.hidden = false;
+            button.onclick = function () { instance.SetFullscreen(1); };
+            if (mobile) offerInstall();
+            watchForUpdates();
+          }).catch(function (message) {
+            if (/Unknown data format|DOCTYPE|404/i.test(String(message)) && reloadFresh()) return;
+            show("The game couldn't start", String(message));
+          });
+        };
+        document.body.appendChild(script);
+      }
+
+      canvas.addEventListener("contextmenu", function (e) { e.preventDefault(); });   // right click is an ability
+      canvas.addEventListener("pointerdown", function () { canvas.focus(); });
+      if (mobile) {
+        document.documentElement.classList.add("mobile");
+        document.getElementById("hint").textContent = "Left thumb moves, right thumb aims. You fire automatically.";
+        document.addEventListener("touchend", goFullscreen);
+        // Keep drags and pinches in the game, not the page.
+        canvas.addEventListener("touchmove", function (e) { e.preventDefault(); }, { passive: false });
+        document.addEventListener("gesturestart", function (e) { e.preventDefault(); });
+      }
+
+      var gl = document.createElement("canvas").getContext("webgl2");
+      if (!gl) {
+        show("Your browser can't run this game", "It needs WebGL 2. Try an up-to-date version of Chrome, Edge, Firefox or Safari.");
+      } else {
+        start();
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Prop Hunt">
+  <link rel="manifest" href="TemplateData/manifest.json?v=2">
+  <link rel="apple-touch-icon" href="TemplateData/icon-180.png?v=2">
+  <meta name="theme-color" content="#1e2240">
+  <title>Prop Hunt</title>
+  <meta name="description" content="Online prop hunt for 2 to 8 friends. Play free in your browser, no download or account.">
+  <link rel="stylesheet" href="TemplateData/style.css">
+</head>
+<body>
+  <canvas id="game" tabindex="-1" aria-label="Prop Hunt"></canvas>
+
+  <div id="bar">
+    <a id="home" href="../../">&larr; All games</a>
+    <button id="fullscreen" type="button" hidden>Fullscreen</button>
+  </div>
+
+  <div id="loading">
+    <h1 class="logo" aria-label="Prop Hunt"><span>P</span><span style="animation-delay:-.2s">R</span><span style="animation-delay:-.4s">O</span><span style="animation-delay:-.6s">P</span><span class="gap"> </span><span style="animation-delay:-.8s">H</span><span style="animation-delay:-1s">U</span><span style="animation-delay:-1.2s">N</span><span style="animation-delay:-1.4s">T</span></h1>
+    <div class="tank">
+      <div class="peek" aria-hidden="true"></div>
+      <div id="track" role="progressbar" aria-label="Loading" aria-valuemin="0" aria-valuemax="100"><div id="fill"></div></div>
+    </div>
+    <p id="status">Loading&hellip; 0%</p>
+    <p class="hint" id="hint">Gremlins hide as everyday things. Janitors have one very powerful vacuum.</p>
+  </div>
+
+  <div id="notice" hidden>
+    <h2 id="notice-title"></h2>
+    <p id="notice-text"></p>
+    <a href="../../">Back to all games</a>
+  </div>
+
+  <div id="rotate" aria-live="polite">Turn your phone sideways to play</div>
+  <div id="safe" aria-hidden="true"></div>
+  <button id="install" type="button" hidden>For full screen, tap Share, then Add to Home Screen, and open it from there. &times;</button>
+
+  <script>
+    (function () {
+      var canvas = document.getElementById("game");
+      var loading = document.getElementById("loading");
+      var fill = document.getElementById("fill");
+      var track = document.getElementById("track");
+      var status = document.getElementById("status");
+      var notice = document.getElementById("notice");
+      var mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+      // Phones are held close, so they get every pixel up to a budget that keeps big tablets affordable. On desktop
+      // Retina is costly and barely visible.
+      function pixelRatio() {
+        var native = window.devicePixelRatio || 1;
+        if (!mobile) return Math.min(native, 1.5);
+        return Math.min(native, Math.sqrt(4200000 / (screen.width * screen.height)));
+      }
+
+      // Browsers only allow fullscreen in response to a tap, so every tap asks until it's granted.
+      function goFullscreen() {
+        var root = document.documentElement;
+        var request = root.requestFullscreen || root.webkitRequestFullscreen;
+        if (!request || document.fullscreenElement || document.webkitFullscreenElement) return;
+        var result = request.call(root, { navigationUI: "hide" });
+        if (result && result.then) result.then(function () {
+          if (screen.orientation && screen.orientation.lock) return screen.orientation.lock("landscape");
+        }).catch(function () {});
+      }
+
+      // iPhone Safari has no fullscreen for pages; only a game opened from the Home Screen fills the display.
+      function offerInstall() {
+        var iphone = /iPhone|iPod/i.test(navigator.userAgent);
+        var dismissed = false;
+        try { dismissed = localStorage.getItem("proppanic-install-hint") === "1"; } catch (e) {}
+        if (!iphone || navigator.standalone || dismissed) return;
+        var hint = document.getElementById("install");
+        hint.hidden = false;
+        hint.onclick = function () {
+          hint.hidden = true;
+          try { localStorage.setItem("proppanic-install-hint", "1"); } catch (e) {}
+        };
+      }
+
+      function show(title, text) {
+        document.getElementById("notice-title").textContent = title;
+        document.getElementById("notice-text").textContent = text;
+        notice.hidden = false;
+        loading.hidden = true;
+      }
+
+      function start() {
+        notice.hidden = true;
+        loading.hidden = false;
+        var script = document.createElement("script");
+        script.src = "Build/42b6bf46fc59eef07f16e2ceac438773.loader.js";
+        script.onerror = function () {
+          show("The game didn't load", "Check your connection and reload the page.");
+        };
+        script.onload = function () {
+          createUnityInstance(canvas, {
+            arguments: [],
+            dataUrl: "Build/e5ce846ee852a12134b1c08e22e86c59.data.unityweb",
+            frameworkUrl: "Build/e650304ec346343afab71b7fa04fa075.framework.js.unityweb",
+            codeUrl: "Build/215917004ddcc182d8abd093b18c09bc.wasm.unityweb",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "DefaultCompany",
+            productName: "Prop Hunt",
+            productVersion: "0.1.0",
+            autoSyncPersistentDataPath: true,
+            devicePixelRatio: pixelRatio(),
+            showBanner: function (message, type) {
+              if (type === "error") show("Something went wrong", message);
+              else console.warn(message);
+            }
+          }, function (progress) {
+            var percent = Math.round(progress * 100);
+            fill.style.width = percent + "%";
+            track.setAttribute("aria-valuenow", percent);
+            status.textContent = progress < 0.9 ? "Loading… " + percent + "%" : "Almost there…";
+          }).then(function (instance) {
+            loading.hidden = true;
+            canvas.focus();
+            var button = document.getElementById("fullscreen");
+            button.hidden = false;
+            button.onclick = function () { instance.SetFullscreen(1); };
+            if (mobile) offerInstall();
+          }).catch(function (message) {
+            show("The game couldn't start", String(message));
+          });
+        };
+        document.body.appendChild(script);
+      }
+
+      canvas.addEventListener("contextmenu", function (e) { e.preventDefault(); });   // right click is an ability
+      canvas.addEventListener("pointerdown", function () { canvas.focus(); });
+      // A new tip every few seconds while the game loads.
+      var tips = [
+        "Tip: lock in place with F, even in mid-air. Nobody expects a floating barrel.",
+        "Tip: blasting an innocent chair costs a janitor health. Aim carefully!",
+        "Tip: taunt with 1 to 4 for points, if you dare.",
+        "Tip: when the lights go out, janitors hunt by torchlight.",
+        "Tip: slot into an empty gap and you'll blend right in.",
+        "Tip: a prop that wobbles is a prop that walks. Stay still!"
+      ];
+      var tip = 0;
+      var tipTimer = setInterval(function () {
+        if (loading.hidden) { clearInterval(tipTimer); return; }
+        tip = (tip + 1) % tips.length;
+        document.getElementById("hint").textContent = tips[tip];
+      }, 4500);
+      if (mobile) {
+        document.documentElement.classList.add("mobile");
+        document.getElementById("hint").textContent = "Left thumb moves, right thumb looks. Friends join with your room code.";
+        document.addEventListener("touchend", goFullscreen);
+        // Keep drags and pinches in the game, not the page.
+        canvas.addEventListener("touchmove", function (e) { e.preventDefault(); }, { passive: false });
+        document.addEventListener("gesturestart", function (e) { e.preventDefault(); });
+      }
+
+      var gl = document.createElement("canvas").getContext("webgl2");
+      if (!gl) {
+        show("Your browser can't run this game", "It needs WebGL 2. Try an up-to-date version of Chrome, Edge, Firefox or Safari.");
+      } else {
+        start();
+      }
+    })();
+  </script>
+</body>
+</html>
