@@ -1,7 +1,7 @@
 # Ski Resort Tycoon: Game Plan
 
-Working title: **Summit Season** (placeholder, easy to change)
-Target: free browser game on the Baki Games site, in `games/summit-season/`
+Title: **Peak Season**
+Target: free browser game on the Baki Games site, in `games/peak-season/`
 Engine: **Unity 6 LTS, URP, WebGL build**, using the same pipeline as Emberfall, Prop Hunt and Coldsnap
 
 ---
@@ -72,7 +72,7 @@ Engine: **Unity 6 LTS, URP, WebGL build**, using the same pipeline as Emberfall,
 ### Session flow
 1. Title screen → **Mountains** map (4 peaks + sandbox) → choose a mountain.
 2. Arrive by drone shot (Timeline) at a near-empty mountain with a car park and a small starting budget.
-3. A short tutorial (Mountain 1 only): place a magic carpet, draw a green slope, open the resort, then ride it.
+3. A short tutorial (Mountain 1 only): place a magic carpet, draw a blue slope, open the resort, then ride it.
 4. The **season** runs as a sequence of days (about 8 real minutes per day at 1×). Each season ends with a report: profit, rating, best day, best combo.
 5. Meet the mountain's **goals** (for example 300 guests/day, a 4★ rating, $50k in the bank) to unlock the next mountain. You can keep playing every mountain forever after.
 
@@ -84,7 +84,7 @@ All names and layouts are original. Each mountain teaches something new.
 
 | # | Mountain | Size | Theme | What it teaches | Goals to unlock the next |
 |---|---|---|---|---|---|
-| 1 | **Birchwood Hill** | 600 × 600 m, 250 m of vertical | Gentle forested hill next to a village | Basics: carpet, T-bar, chairlift, green and blue slopes, café, rental | 150 guests/day · 3★ · first combo of 5,000 pts |
+| 1 | **Birchwood Hill** | 600 × 600 m, 250 m of vertical | Gentle forested hill next to a village | Basics: carpet, T-bar, chairlift, beginner area and blue slopes, café, rental | 150 guests/day · 3★ · first combo of 5,000 pts |
 | 2 | **Kestrel Ridge** | 1 × 1 km, 600 m | Long ridge with a natural bowl and cliffs | Terrain park, snowmaking, red slopes, night skiing | 400 guests/day · 3.5★ · park rated "Good" |
 | 3 | **Frostvane Glacier** | 1.2 × 1.2 km, 900 m | High-altitude glacier, crevasses, strong wind | Weather management, gondola, wind holds, ski patrol, black slopes | 700 guests/day · 4★ · all glacier challenges |
 | 4 | **Mount Aurel** | 1.5 × 1.5 km, 1,400 m | Huge alpine peak, multiple valleys, a village at the base | Everything together: hotels, a cable car, couloirs, a pro competition event | Endgame: 5★ "World Class Resort" |
@@ -114,15 +114,16 @@ Later updates could add new mountains; the plan leaves room for that.
 
 ### 5.2 Slopes (pistes)
 - **Drawing tool:** click points down the mountain and the slope becomes a spline corridor 10–60 m wide. You can adjust it with handles.
-- **Difficulty is worked out from the steepest sustained section**, and you can push it one step harder by hand:
+- **European grading.** Difficulty is worked out from the steepest sustained section, and you can push it one step harder by hand:
 
-  | Colour | Max gradient | Who rides it |
+  | Marking | Max gradient | Who rides it |
   |---|---|---|
-  | 🟢 Green | < 25% | Beginners and families |
-  | 🔵 Blue | 25–40% | Intermediate |
-  | 🔴 Red | 40–55% | Advanced |
-  | ⚫ Black | > 55% | Experts |
-  | 🟠 Freeride | unmarked | Experts, avalanche risk |
+  | Beginner area (fenced zone, not a numbered run) | < 15% | First-timers, ski school, magic carpets |
+  | 🔵 Blue | < 25% | Beginners and families |
+  | 🔴 Red | 25–40% | Intermediate |
+  | ⚫ Black | > 40% | Advanced and experts |
+  | 🟠 Ski route / freeride (orange dashed) | unmarked | Experts, avalanche risk |
+- Runs get European-style numbered signs (for example "7 Ridge Run", in the run's colour).
 - Slopes link to **lift bottoms and tops, other slopes and buildings** in a navigation graph. Disconnected slopes show a warning.
 - Each slope has **open/closed, grooming priority, signage and night lighting** (floodlights, which are a separate purchase).
 - **Slope rating** depends on length, variety, snow quality, crowding and how well its difficulty matches its colour.
@@ -351,7 +352,7 @@ combo score   = Σ trick points × combo multiplier (+1 per trick, +0.5 per dist
 ### 11.2 Audio
 - **Riding:** layered snow surface sounds (groomed hiss, powder whoosh, ice scrape), wind that rises with speed, binding clicks, landing thuds, and crash tumbles.
 - **Resort ambience:** distant chatter, lift motor hum and chair clank over towers, the café door bell, snow cannon roar, and the groomer's engine at night.
-- **Music:** calm lo-fi/acoustic tracks for building, more upbeat ones in ride mode, with a crossfade between modes. Sources are CC0/royalty-free or your own tracks (open question).
+- **Music:** calm lo-fi/acoustic tracks for building, more upbeat ones in ride mode, with a crossfade between modes. All music and SFX are free-licence (CC0 preferred, otherwise CC-BY with credits in the game and the site footer).
 - **UI:** soft wooden clicks and a cash-register "ting" for income.
 
 ---
@@ -409,7 +410,7 @@ Assets/
 | Heap | ≤ 512 MB | ≤ 1 GB |
 
 ### 12.5 Web integration with the site
-- Builds go into **`games/summit-season-test/`** first (same pattern as `coldsnap-test` and `prop-panic-test`), then **`games/summit-season/`** when ready.
+- Builds go into **`games/peak-season-test/`** first (same pattern as `coldsnap-test` and `prop-panic-test`), then **`games/peak-season/`** when ready.
 - The loading page uses the same template family: title, progress bar ("Waxing skis… 42%"), a controls hint, fullscreen, a rotate prompt for phones, the PWA manifest and icons, and "← All games".
 - **A new card on `index.html`** with poster, gameplay video, a facts line ("Plays in your browser · ~35 MB · Keyboard and mouse, gamepad or touch") and a "Play now" CTA, plus a credits line in the footer for any CC0 assets or fonts.
 - Mountain Addressables bundles are hosted next to the build with hashed names (immutable caching on GitHub Pages).
@@ -492,10 +493,13 @@ Each milestone ends with a playable build at the test URL.
 
 ---
 
-## 16. Open questions (to settle as we go)
+## 16. Decisions log and open questions
 
-1. **Final title:** "Summit Season" is a placeholder. Alternatives: *Powder Line*, *Lift & Line*, *Snowcrest Tycoon*.
-2. **Music:** use CC0 or royalty-free tracks, or do you have tracks of your own (like the one on the site's promo)?
-3. **Slope colours:** European style (blue/red/black) or North American (green/blue/black diamond)? The plan currently uses green + blue + red + black.
-4. **Unity project location:** the repo only holds builds. Where does the Unity project live, and which Unity version is installed? (The plan assumes Unity 6 LTS.)
-5. **Guest characters at close range:** keep them faceless and simple (closest to the target style), or give them simple faces when you follow one?
+**Decided:**
+- Title: **Peak Season** (`games/peak-season/`)
+- Music and SFX: free-licence (CC0 first, CC-BY credited)
+- Slope colours: European (beginner area, blue, red, black, orange ski routes)
+
+**Still open:**
+1. **Unity project location and version.** The repo only holds builds; the project will be created with Unity Hub on the developer's machine. The plan assumes Unity 6 LTS.
+2. **Guest characters at close range:** faceless and simple (closest to the target style), or simple faces when you follow one?
