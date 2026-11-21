@@ -6,7 +6,11 @@ M0 proved the riding (live at `games/peak-season-test/`). M1 turns it into the g
 
 ---
 
-## 0. Decisions I need from you
+## 0. Decisions (answered by Bartol on 2026-11-22)
+
+All four approved: faces covered by goggles and scarves; M0 mountain kept for Kestrel Ridge; rider upgrade in M1; check-ins only after P2 and at the end.
+
+### The questions as asked
 
 1. **Guest faces up close** (the plan's open question). My suggestion: faceless (goggles and a scarf hide the face), the same as the target look. Simple faces would only show when you follow a guest.
 2. **The M0 mountain** (1 km, 600 m, steep face, cliffs, park) is too big and steep for the beginner mountain. My suggestion: keep it as the start of **Kestrel Ridge** (Mountain 2, M2), and make Birchwood Hill new in M1. Until M2, the M0 mountain stays reachable as "Free ride: Kestrel Ridge (preview)" on the title screen, so nothing you liked is lost.
