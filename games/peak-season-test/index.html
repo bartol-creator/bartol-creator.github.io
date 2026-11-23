@@ -113,20 +113,79 @@
 
       // Waxing, then the rest of the pre-ride ritual as the bar fills.
       var steps = ["Waxing skis", "Grooming the run", "Sharpening edges", "Building the kickers"];
+
+      // The world map's pictures (StreamingAssets/map) download alongside the game and count in the same bar, so
+      // the map opens without a second wait. The game then reads them from the browser cache before it starts.
+      // Not when the address jumps straight into a mountain (tests): the map is only reachable from the title.
+      var mapProgress = 1, gameProgress = 0;
+      var wantsMap = !/[?&](mode|mountain|spawn|autopilot)\b/.test(location.search);
+      function prefetchMap() {
+        if (!wantsMap) return;
+        mapProgress = 0;
+        window.peakMapFetched = false;
+        var base = "StreamingAssets/map/";
+        fetch(base + "map.json").then(function (r) { return r.json(); }).then(function (meta) {
+          var files = ["badges.png", "badges.json"];
+          meta.tiers.forEach(function (t) {
+            files.push(t.name + "_h.bin");
+            files.push(t.name + (mobile && t.w > 1000 ? "_lo.jpg" : ".jpg"));
+          });
+          var got = {}, size = {};
+          function update() {
+            var a = 0, b = 0;
+            files.forEach(function (f) { a += got[f] || 0; b += size[f] || 400000; });
+            mapProgress = Math.min(1, a / b);
+            if (files.every(function (f) { return got[f] && got[f] >= size[f]; })) window.peakMapFetched = true;
+            paint();
+          }
+          files.forEach(function (f) {
+            fetch(base + f).then(function (r) {
+              size[f] = parseInt(r.headers.get("Content-Length"), 10) || 400000;
+              if (!r.body || !r.body.getReader) return r.arrayBuffer().then(function () { got[f] = size[f]; update(); });
+              var reader = r.body.getReader();
+              function pump() {
+                return reader.read().then(function (x) {
+                  if (x.done) { got[f] = size[f]; update(); return; }
+                  got[f] = Math.min(size[f], (got[f] || 0) + x.value.length); update(); return pump();
+                });
+              }
+              return pump();
+            }).catch(function () { got[f] = size[f] = 1; update(); });
+          });
+        }).catch(function () { mapProgress = 1; window.peakMapFetched = true; paint(); });
+      }
+      // the game is about 8 MB and the map about 4.5 MB: the bar weighs them roughly by size
+      function paint() {
+        if (window.peakInstance) {
+          // the game is in; the map may still be coming
+          if (!window.peakMapFetched && window.peakMapFetched !== undefined) {
+            fill.style.width = Math.round(65 + mapProgress * 35) + "%";
+            status.textContent = "Unrolling the world map… " + Math.round(mapProgress * 100) + "%";
+          }
+          return;
+        }
+        var progress = wantsMap ? gameProgress * 0.65 + mapProgress * 0.35 : gameProgress;
+        var percent = Math.round(progress * 100);
+        fill.style.width = percent + "%";
+        track.setAttribute("aria-valuenow", percent);
+        var step = steps[Math.min(steps.length - 1, Math.floor(progress * steps.length))];
+        status.textContent = progress < 0.9 ? step + "… " + percent + "%" : "Almost there…";
+      }
+
       function start() {
         notice.hidden = true;
         loading.hidden = false;
         var script = document.createElement("script");
-        script.src = "Build/db959851a78201cffef0eaaf5396ec4d.loader.js";
+        script.src = "Build/2d43af01d70a40f9d57e0fc2a1c202f0.loader.js";
         script.onerror = function () {
           show("The game didn't load", "Check your connection and reload the page.");
         };
         script.onload = function () {
           createUnityInstance(canvas, {
             arguments: [],
-            dataUrl: "Build/e1c078e6c94d01dbf679f442fc3acc13.data.unityweb",
-            frameworkUrl: "Build/4ff76e304a4abfbee5646f56410b754c.framework.js.unityweb",
-            codeUrl: "Build/b66d78488cac3243798631d735ea47f4.wasm.unityweb",
+            dataUrl: "Build/1662f8324bb866691d03889bd4d840ce.data.unityweb",
+            frameworkUrl: "Build/344735fb92107acbf3555972ad415308.framework.js.unityweb",
+            codeUrl: "Build/2ab30bc95cded317190f15c21d8f9e70.wasm.unityweb",
             streamingAssetsUrl: "StreamingAssets",
             companyName: "Baki Games",
             productName: "Peak Season",
@@ -137,16 +196,14 @@
               else console.warn(message);
             }
           }, function (progress) {
-            var percent = Math.round(progress * 100);
-            fill.style.width = percent + "%";
-            track.setAttribute("aria-valuenow", percent);
-            var step = steps[Math.min(steps.length - 1, Math.floor(progress * steps.length))];
-            status.textContent = progress < 0.9 ? step + "… " + percent + "%" : "Almost there…";
+            gameProgress = progress;
+            paint();
           }).then(function (instance) {
             // The game builds the mountain and draws its first frames behind this screen, then calls peakReady.
             window.peakInstance = instance;   // tests drive the game through it
             fill.style.width = "100%";
             status.textContent = "Shaping the mountain…";
+            paint();
             var shown = false;
             window.peakReady = function () {
               if (shown) return;
@@ -155,7 +212,7 @@
               document.getElementById("credit").hidden = true;
               canvas.focus();
             };
-            setTimeout(window.peakReady, 20000);
+            setTimeout(window.peakReady, 45000);
             var button = document.getElementById("fullscreen");
             button.hidden = false;
             button.onclick = function () { instance.SetFullscreen(1); };
@@ -165,6 +222,7 @@
           });
         };
         document.body.appendChild(script);
+        prefetchMap();
       }
 
       canvas.addEventListener("contextmenu", function (e) { e.preventDefault(); });   // right drag looks around
