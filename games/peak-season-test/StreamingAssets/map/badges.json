@@ -1,0 +1,302 @@
+{
+"cell": 200,
+"size": 184,
+"w": 1600,
+"h": 1200,
+"badges": [
+{
+"name": "Birchwood Hill",
+"grey": false,
+"x": 8,
+"y": 8,
+"round": true
+},
+{
+"name": "Birchwood Hill",
+"grey": true,
+"x": 208,
+"y": 8,
+"round": true
+},
+{
+"name": "Kestrel Ridge",
+"grey": false,
+"x": 408,
+"y": 8,
+"round": true
+},
+{
+"name": "Kestrel Ridge",
+"grey": true,
+"x": 608,
+"y": 8,
+"round": true
+},
+{
+"name": "Frostvane Glacier",
+"grey": false,
+"x": 808,
+"y": 8,
+"round": true
+},
+{
+"name": "Frostvane Glacier",
+"grey": true,
+"x": 1008,
+"y": 8,
+"round": true
+},
+{
+"name": "Gerlitzen Alpe",
+"grey": false,
+"x": 1208,
+"y": 8,
+"round": false
+},
+{
+"name": "Gerlitzen Alpe",
+"grey": true,
+"x": 1408,
+"y": 8,
+"round": false
+},
+{
+"name": "Sljeme",
+"grey": false,
+"x": 8,
+"y": 208,
+"round": false
+},
+{
+"name": "Sljeme",
+"grey": true,
+"x": 208,
+"y": 208,
+"round": false
+},
+{
+"name": "Zermatt",
+"grey": false,
+"x": 408,
+"y": 208,
+"round": false
+},
+{
+"name": "Zermatt",
+"grey": true,
+"x": 608,
+"y": 208,
+"round": false
+},
+{
+"name": "Chamonix",
+"grey": false,
+"x": 808,
+"y": 208,
+"round": false
+},
+{
+"name": "Chamonix",
+"grey": true,
+"x": 1008,
+"y": 208,
+"round": false
+},
+{
+"name": "Val d'Is\u00e8re",
+"grey": false,
+"x": 1208,
+"y": 208,
+"round": false
+},
+{
+"name": "Val d'Is\u00e8re",
+"grey": true,
+"x": 1408,
+"y": 208,
+"round": false
+},
+{
+"name": "St. Anton",
+"grey": false,
+"x": 8,
+"y": 408,
+"round": false
+},
+{
+"name": "St. Anton",
+"grey": true,
+"x": 208,
+"y": 408,
+"round": false
+},
+{
+"name": "Kitzb\u00fchel",
+"grey": false,
+"x": 408,
+"y": 408,
+"round": false
+},
+{
+"name": "Kitzb\u00fchel",
+"grey": true,
+"x": 608,
+"y": 408,
+"round": false
+},
+{
+"name": "Cortina d'Ampezzo",
+"grey": false,
+"x": 808,
+"y": 408,
+"round": false
+},
+{
+"name": "Cortina d'Ampezzo",
+"grey": true,
+"x": 1008,
+"y": 408,
+"round": false
+},
+{
+"name": "Bansko",
+"grey": false,
+"x": 1208,
+"y": 408,
+"round": false
+},
+{
+"name": "Bansko",
+"grey": true,
+"x": 1408,
+"y": 408,
+"round": false
+},
+{
+"name": "Jahorina",
+"grey": false,
+"x": 8,
+"y": 608,
+"round": false
+},
+{
+"name": "Jahorina",
+"grey": true,
+"x": 208,
+"y": 608,
+"round": false
+},
+{
+"name": "Whistler Blackcomb",
+"grey": false,
+"x": 408,
+"y": 608,
+"round": false
+},
+{
+"name": "Whistler Blackcomb",
+"grey": true,
+"x": 608,
+"y": 608,
+"round": false
+},
+{
+"name": "Aspen",
+"grey": false,
+"x": 808,
+"y": 608,
+"round": false
+},
+{
+"name": "Aspen",
+"grey": true,
+"x": 1008,
+"y": 608,
+"round": false
+},
+{
+"name": "Vail",
+"grey": false,
+"x": 1208,
+"y": 608,
+"round": false
+},
+{
+"name": "Vail",
+"grey": true,
+"x": 1408,
+"y": 608,
+"round": false
+},
+{
+"name": "Jackson Hole",
+"grey": false,
+"x": 8,
+"y": 808,
+"round": false
+},
+{
+"name": "Jackson Hole",
+"grey": true,
+"x": 208,
+"y": 808,
+"round": false
+},
+{
+"name": "Niseko",
+"grey": false,
+"x": 408,
+"y": 808,
+"round": false
+},
+{
+"name": "Niseko",
+"grey": true,
+"x": 608,
+"y": 808,
+"round": false
+},
+{
+"name": "Hakuba",
+"grey": false,
+"x": 808,
+"y": 808,
+"round": false
+},
+{
+"name": "Hakuba",
+"grey": true,
+"x": 1008,
+"y": 808,
+"round": false
+},
+{
+"name": "Queenstown",
+"grey": false,
+"x": 1208,
+"y": 808,
+"round": false
+},
+{
+"name": "Queenstown",
+"grey": true,
+"x": 1408,
+"y": 808,
+"round": false
+},
+{
+"name": "Portillo",
+"grey": false,
+"x": 8,
+"y": 1008,
+"round": false
+},
+{
+"name": "Portillo",
+"grey": true,
+"x": 208,
+"y": 1008,
+"round": false
+}
+]
+}
