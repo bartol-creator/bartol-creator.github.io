@@ -1,8 +1,8 @@
 {
 "cell": 200,
 "size": 184,
-"w": 1600,
-"h": 1200,
+"w": 2000,
+"h": 2000,
 "badges": [
 {
 "name": "Birchwood Hill",
@@ -63,239 +63,645 @@
 {
 "name": "Sljeme",
 "grey": false,
-"x": 8,
-"y": 208,
+"x": 1608,
+"y": 8,
 "round": false
 },
 {
 "name": "Sljeme",
 "grey": true,
-"x": 208,
-"y": 208,
+"x": 1808,
+"y": 8,
 "round": false
 },
 {
 "name": "Zermatt",
 "grey": false,
-"x": 408,
+"x": 8,
 "y": 208,
 "round": false
 },
 {
 "name": "Zermatt",
 "grey": true,
-"x": 608,
+"x": 208,
 "y": 208,
 "round": false
 },
 {
 "name": "Chamonix",
 "grey": false,
-"x": 808,
+"x": 408,
 "y": 208,
 "round": false
 },
 {
 "name": "Chamonix",
 "grey": true,
-"x": 1008,
+"x": 608,
 "y": 208,
 "round": false
 },
 {
 "name": "Val d'Is\u00e8re",
 "grey": false,
-"x": 1208,
+"x": 808,
 "y": 208,
 "round": false
 },
 {
 "name": "Val d'Is\u00e8re",
 "grey": true,
-"x": 1408,
+"x": 1008,
 "y": 208,
 "round": false
 },
 {
 "name": "St. Anton",
 "grey": false,
-"x": 8,
-"y": 408,
+"x": 1208,
+"y": 208,
 "round": false
 },
 {
 "name": "St. Anton",
 "grey": true,
+"x": 1408,
+"y": 208,
+"round": false
+},
+{
+"name": "Kitzb\u00fchel",
+"grey": false,
+"x": 1608,
+"y": 208,
+"round": false
+},
+{
+"name": "Kitzb\u00fchel",
+"grey": true,
+"x": 1808,
+"y": 208,
+"round": false
+},
+{
+"name": "Cortina d'Ampezzo",
+"grey": false,
+"x": 8,
+"y": 408,
+"round": false
+},
+{
+"name": "Cortina d'Ampezzo",
+"grey": true,
 "x": 208,
-"y": 408,
-"round": false
-},
-{
-"name": "Kitzb\u00fchel",
-"grey": false,
-"x": 408,
-"y": 408,
-"round": false
-},
-{
-"name": "Kitzb\u00fchel",
-"grey": true,
-"x": 608,
-"y": 408,
-"round": false
-},
-{
-"name": "Cortina d'Ampezzo",
-"grey": false,
-"x": 808,
-"y": 408,
-"round": false
-},
-{
-"name": "Cortina d'Ampezzo",
-"grey": true,
-"x": 1008,
 "y": 408,
 "round": false
 },
 {
 "name": "Bansko",
 "grey": false,
-"x": 1208,
+"x": 408,
 "y": 408,
 "round": false
 },
 {
 "name": "Bansko",
 "grey": true,
-"x": 1408,
+"x": 608,
 "y": 408,
 "round": false
 },
 {
 "name": "Jahorina",
 "grey": false,
-"x": 8,
-"y": 608,
+"x": 808,
+"y": 408,
 "round": false
 },
 {
 "name": "Jahorina",
 "grey": true,
-"x": 208,
-"y": 608,
-"round": false
-},
-{
-"name": "Whistler Blackcomb",
-"grey": false,
-"x": 408,
-"y": 608,
-"round": false
-},
-{
-"name": "Whistler Blackcomb",
-"grey": true,
-"x": 608,
-"y": 608,
-"round": false
-},
-{
-"name": "Aspen",
-"grey": false,
-"x": 808,
-"y": 608,
-"round": false
-},
-{
-"name": "Aspen",
-"grey": true,
 "x": 1008,
-"y": 608,
+"y": 408,
 "round": false
 },
 {
-"name": "Vail",
+"name": "Whistler Blackcomb",
 "grey": false,
 "x": 1208,
+"y": 408,
+"round": false
+},
+{
+"name": "Whistler Blackcomb",
+"grey": true,
+"x": 1408,
+"y": 408,
+"round": false
+},
+{
+"name": "Aspen",
+"grey": false,
+"x": 1608,
+"y": 408,
+"round": false
+},
+{
+"name": "Aspen",
+"grey": true,
+"x": 1808,
+"y": 408,
+"round": false
+},
+{
+"name": "Vail",
+"grey": false,
+"x": 8,
 "y": 608,
 "round": false
 },
 {
 "name": "Vail",
 "grey": true,
-"x": 1408,
+"x": 208,
 "y": 608,
 "round": false
 },
 {
 "name": "Jackson Hole",
 "grey": false,
+"x": 408,
+"y": 608,
+"round": false
+},
+{
+"name": "Jackson Hole",
+"grey": true,
+"x": 608,
+"y": 608,
+"round": false
+},
+{
+"name": "Niseko",
+"grey": false,
+"x": 808,
+"y": 608,
+"round": false
+},
+{
+"name": "Niseko",
+"grey": true,
+"x": 1008,
+"y": 608,
+"round": false
+},
+{
+"name": "Hakuba",
+"grey": false,
+"x": 1208,
+"y": 608,
+"round": false
+},
+{
+"name": "Hakuba",
+"grey": true,
+"x": 1408,
+"y": 608,
+"round": false
+},
+{
+"name": "Queenstown",
+"grey": false,
+"x": 1608,
+"y": 608,
+"round": false
+},
+{
+"name": "Queenstown",
+"grey": true,
+"x": 1808,
+"y": 608,
+"round": false
+},
+{
+"name": "Portillo",
+"grey": false,
 "x": 8,
 "y": 808,
 "round": false
 },
 {
-"name": "Jackson Hole",
+"name": "Portillo",
 "grey": true,
 "x": 208,
 "y": 808,
 "round": false
 },
 {
-"name": "Niseko",
+"name": "Verbier",
 "grey": false,
 "x": 408,
 "y": 808,
 "round": false
 },
 {
-"name": "Niseko",
+"name": "Verbier",
 "grey": true,
 "x": 608,
 "y": 808,
 "round": false
 },
 {
-"name": "Hakuba",
+"name": "St. Moritz",
 "grey": false,
 "x": 808,
 "y": 808,
 "round": false
 },
 {
-"name": "Hakuba",
+"name": "St. Moritz",
 "grey": true,
 "x": 1008,
 "y": 808,
 "round": false
 },
 {
-"name": "Queenstown",
+"name": "Courchevel",
 "grey": false,
 "x": 1208,
 "y": 808,
 "round": false
 },
 {
-"name": "Queenstown",
+"name": "Courchevel",
 "grey": true,
 "x": 1408,
 "y": 808,
 "round": false
 },
 {
-"name": "Portillo",
+"name": "Ischgl",
+"grey": false,
+"x": 1608,
+"y": 808,
+"round": false
+},
+{
+"name": "Ischgl",
+"grey": true,
+"x": 1808,
+"y": 808,
+"round": false
+},
+{
+"name": "S\u00f6lden",
 "grey": false,
 "x": 8,
 "y": 1008,
 "round": false
 },
 {
-"name": "Portillo",
+"name": "S\u00f6lden",
 "grey": true,
 "x": 208,
 "y": 1008,
+"round": false
+},
+{
+"name": "Garmisch",
+"grey": false,
+"x": 408,
+"y": 1008,
+"round": false
+},
+{
+"name": "Garmisch",
+"grey": true,
+"x": 608,
+"y": 1008,
+"round": false
+},
+{
+"name": "Livigno",
+"grey": false,
+"x": 808,
+"y": 1008,
+"round": false
+},
+{
+"name": "Livigno",
+"grey": true,
+"x": 1008,
+"y": 1008,
+"round": false
+},
+{
+"name": "Kranjska Gora",
+"grey": false,
+"x": 1208,
+"y": 1008,
+"round": false
+},
+{
+"name": "Kranjska Gora",
+"grey": true,
+"x": 1408,
+"y": 1008,
+"round": false
+},
+{
+"name": "Jasn\u00e1",
+"grey": false,
+"x": 1608,
+"y": 1008,
+"round": false
+},
+{
+"name": "Jasn\u00e1",
+"grey": true,
+"x": 1808,
+"y": 1008,
+"round": false
+},
+{
+"name": "Zakopane",
+"grey": false,
+"x": 8,
+"y": 1208,
+"round": false
+},
+{
+"name": "Zakopane",
+"grey": true,
+"x": 208,
+"y": 1208,
+"round": false
+},
+{
+"name": "Kopaonik",
+"grey": false,
+"x": 408,
+"y": 1208,
+"round": false
+},
+{
+"name": "Kopaonik",
+"grey": true,
+"x": 608,
+"y": 1208,
+"round": false
+},
+{
+"name": "Gudauri",
+"grey": false,
+"x": 808,
+"y": 1208,
+"round": false
+},
+{
+"name": "Gudauri",
+"grey": true,
+"x": 1008,
+"y": 1208,
+"round": false
+},
+{
+"name": "\u00c5re",
+"grey": false,
+"x": 1208,
+"y": 1208,
+"round": false
+},
+{
+"name": "\u00c5re",
+"grey": true,
+"x": 1408,
+"y": 1208,
+"round": false
+},
+{
+"name": "Hemsedal",
+"grey": false,
+"x": 1608,
+"y": 1208,
+"round": false
+},
+{
+"name": "Hemsedal",
+"grey": true,
+"x": 1808,
+"y": 1208,
+"round": false
+},
+{
+"name": "Levi",
+"grey": false,
+"x": 8,
+"y": 1408,
+"round": false
+},
+{
+"name": "Levi",
+"grey": true,
+"x": 208,
+"y": 1408,
+"round": false
+},
+{
+"name": "Grandvalira",
+"grey": false,
+"x": 408,
+"y": 1408,
+"round": false
+},
+{
+"name": "Grandvalira",
+"grey": true,
+"x": 608,
+"y": 1408,
+"round": false
+},
+{
+"name": "Sierra Nevada",
+"grey": false,
+"x": 808,
+"y": 1408,
+"round": false
+},
+{
+"name": "Sierra Nevada",
+"grey": true,
+"x": 1008,
+"y": 1408,
+"round": false
+},
+{
+"name": "Park City",
+"grey": false,
+"x": 1208,
+"y": 1408,
+"round": false
+},
+{
+"name": "Park City",
+"grey": true,
+"x": 1408,
+"y": 1408,
+"round": false
+},
+{
+"name": "Mammoth",
+"grey": false,
+"x": 1608,
+"y": 1408,
+"round": false
+},
+{
+"name": "Mammoth",
+"grey": true,
+"x": 1808,
+"y": 1408,
+"round": false
+},
+{
+"name": "Palisades Tahoe",
+"grey": false,
+"x": 8,
+"y": 1608,
+"round": false
+},
+{
+"name": "Palisades Tahoe",
+"grey": true,
+"x": 208,
+"y": 1608,
+"round": false
+},
+{
+"name": "Banff Sunshine",
+"grey": false,
+"x": 408,
+"y": 1608,
+"round": false
+},
+{
+"name": "Banff Sunshine",
+"grey": true,
+"x": 608,
+"y": 1608,
+"round": false
+},
+{
+"name": "Mont-Tremblant",
+"grey": false,
+"x": 808,
+"y": 1608,
+"round": false
+},
+{
+"name": "Mont-Tremblant",
+"grey": true,
+"x": 1008,
+"y": 1608,
+"round": false
+},
+{
+"name": "Thredbo",
+"grey": false,
+"x": 1208,
+"y": 1608,
+"round": false
+},
+{
+"name": "Thredbo",
+"grey": true,
+"x": 1408,
+"y": 1608,
+"round": false
+},
+{
+"name": "Cerro Catedral",
+"grey": false,
+"x": 1608,
+"y": 1608,
+"round": false
+},
+{
+"name": "Cerro Catedral",
+"grey": true,
+"x": 1808,
+"y": 1608,
+"round": false
+},
+{
+"name": "Yongpyong",
+"grey": false,
+"x": 8,
+"y": 1808,
+"round": false
+},
+{
+"name": "Yongpyong",
+"grey": true,
+"x": 208,
+"y": 1808,
+"round": false
+},
+{
+"name": "Gulmarg",
+"grey": false,
+"x": 408,
+"y": 1808,
+"round": false
+},
+{
+"name": "Gulmarg",
+"grey": true,
+"x": 608,
+"y": 1808,
+"round": false
+},
+{
+"name": "Mzaar",
+"grey": false,
+"x": 808,
+"y": 1808,
+"round": false
+},
+{
+"name": "Mzaar",
+"grey": true,
+"x": 1008,
+"y": 1808,
+"round": false
+},
+{
+"name": "Ouka\u00efmeden",
+"grey": false,
+"x": 1208,
+"y": 1808,
+"round": false
+},
+{
+"name": "Ouka\u00efmeden",
+"grey": true,
+"x": 1408,
+"y": 1808,
+"round": false
+},
+{
+"name": "Afriski",
+"grey": false,
+"x": 1608,
+"y": 1808,
+"round": false
+},
+{
+"name": "Afriski",
+"grey": true,
+"x": 1808,
+"y": 1808,
 "round": false
 }
 ]
