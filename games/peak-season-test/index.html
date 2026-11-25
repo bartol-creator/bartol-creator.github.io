@@ -176,17 +176,18 @@
         notice.hidden = true;
         loading.hidden = false;
         var script = document.createElement("script");
-        script.src = "Build/8d6799b01e7b31694f4ebdc03b12d180.loader.js";
+        script.src = "Build/12593fe72692cb530e3168f32733e80b.loader.js";
         script.onerror = function () {
           show("The game didn't load", "Check your connection and reload the page.");
         };
         script.onload = function () {
           createUnityInstance(canvas, {
             arguments: [],
-            dataUrl: "Build/61064339d0356f5d634f77a734110545.data.unityweb",
+            dataUrl: "Build/291c15fe274c71a93828c4e094f120b0.data.unityweb",
             frameworkUrl: "Build/73b43987244b385873636e3471c37b61.framework.js.unityweb",
-            codeUrl: "Build/24d6af309b99f052b892e00e883673a6.wasm.unityweb",
+            codeUrl: "Build/ddf9f95f44e34e6671f8b0d98498b3b0.wasm.unityweb",
             streamingAssetsUrl: "StreamingAssets",
+            autoSyncPersistentDataPath: true,
             companyName: "Baki Games",
             productName: "Peak Season",
             productVersion: "0.0.1",
