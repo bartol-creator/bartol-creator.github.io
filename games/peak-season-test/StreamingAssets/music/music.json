@@ -37,15 +37,6 @@
    "seconds": 324
   },
   {
-   "file": "05-chopin-ballade-no-1-in-g-minor-op-23.mp3",
-   "composer": "Frédéric Chopin",
-   "piece": "Ballade No. 1 in G minor, Op. 23",
-   "performer": "Frank Lévy",
-   "license": "Public domain",
-   "source": "https://commons.wikimedia.org/wiki/File:Chopin_-_Ballade_No._1_in_G_minor,_Op._23_(Frank_Levy).flac",
-   "seconds": 612
-  },
-  {
    "file": "06-chopin-waltz-in-c-sharp-minor-op-64-no-2.mp3",
    "composer": "Frédéric Chopin",
    "piece": "Waltz in C-sharp minor, Op. 64 No. 2",
@@ -64,15 +55,6 @@
    "seconds": 247
   },
   {
-   "file": "08-chopin-tude-op-25-no-11-winter-wind.mp3",
-   "composer": "Frédéric Chopin",
-   "piece": "Étude Op. 25 No. 11 \"Winter Wind\"",
-   "performer": "Edward Neeman",
-   "license": "Public domain",
-   "source": "https://commons.wikimedia.org/wiki/File:Chopin_-_12_%C3%89tudes,_Op._25_-_No._11_in_A_minor_%27Winter_Wind%27_(Edward_Neeman).flac",
-   "seconds": 224
-  },
-  {
    "file": "09-liszt-liebestraum-no-3-in-a-flat-major.mp3",
    "composer": "Franz Liszt",
    "piece": "Liebestraum No. 3 in A-flat major",
@@ -80,15 +62,6 @@
    "license": "CC BY-SA 2.0",
    "source": "https://commons.wikimedia.org/wiki/File:Franz_Liszt_-_Liebestraum,_Ab_Major.ogg",
    "seconds": 265
-  },
-  {
-   "file": "10-liszt-la-campanella.mp3",
-   "composer": "Franz Liszt",
-   "piece": "La Campanella",
-   "performer": "Romuald Greiss",
-   "license": "Public domain",
-   "source": "https://commons.wikimedia.org/wiki/File:Liszt-La_Campanella-Greiss.ogg",
-   "seconds": 370
   },
   {
    "file": "11-liszt-consolation-no-3-in-d-flat-major.mp3",
@@ -190,15 +163,6 @@
    "seconds": 201
   },
   {
-   "file": "22-scriabin-tude-in-d-sharp-minor-op-8-no-12.mp3",
-   "composer": "Alexander Scriabin",
-   "piece": "Étude in D-sharp minor, Op. 8 No. 12",
-   "performer": "Awadagin Pratt",
-   "license": "Public domain",
-   "source": "https://commons.wikimedia.org/wiki/File:20091104_Awadagin_Pratt_-_Scriabin,_%C3%89tude_Op._8_No._12_edit1.ogg",
-   "seconds": 124
-  },
-  {
    "file": "23-scriabin-tude-in-c-sharp-minor-op-2-no-1.mp3",
    "composer": "Alexander Scriabin",
    "piece": "Étude in C-sharp minor, Op. 2 No. 1",
@@ -206,15 +170,6 @@
    "license": "CC BY-SA 3.0",
    "source": "https://commons.wikimedia.org/wiki/File:Skriabin_Etude_cis-Moll_op.2_No.1.ogg",
    "seconds": 156
-  },
-  {
-   "file": "24-paganini-caprice-no-24-in-a-minor.mp3",
-   "composer": "Niccolò Paganini",
-   "piece": "Caprice No. 24 in A minor",
-   "performer": "Yehudi Menuhin, Adolph Baller",
-   "license": "Public domain",
-   "source": "https://commons.wikimedia.org/wiki/File:Paganini_-_Caprice_in_A_minor,_Op._1,_No._24_(Menuhin,_Baller).flac",
-   "seconds": 369
   },
   {
    "file": "25-debussy-clair-de-lune.mp3",
@@ -242,15 +197,6 @@
    "license": "Public domain",
    "source": "https://commons.wikimedia.org/wiki/File:Grieg_-_Peer_Gynt_Suite_No._1,_Op._46_-_I._Morning_Mood_(Musopen_Symphony).flac",
    "seconds": 228
-  },
-  {
-   "file": "28-vivaldi-the-four-seasons-winter.mp3",
-   "composer": "Antonio Vivaldi",
-   "piece": "The Four Seasons: Winter",
-   "performer": "United States Air Force Band Strings",
-   "license": "Public domain",
-   "source": "https://commons.wikimedia.org/wiki/File:Vivaldi_-_Four_Seasons_4_Winter_Air_Force_Strings_-_United_States_Air_Force_Band.mp3",
-   "seconds": 193
   },
   {
    "file": "29-dvo-k-symphony-no-9-from-the-new-world-ii-largo.mp3",
