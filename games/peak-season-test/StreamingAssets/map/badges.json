@@ -524,183 +524,218 @@
 },
 {
 "name": "Rogla",
-"grey": true,
+"grey": false,
 "x": 408,
+"y": 1208,
+"round": false
+},
+{
+"name": "Rogla",
+"grey": true,
+"x": 608,
+"y": 1208,
+"round": false
+},
+{
+"name": "Vogel",
+"grey": false,
+"x": 808,
 "y": 1208,
 "round": false
 },
 {
 "name": "Vogel",
 "grey": true,
-"x": 608,
+"x": 1008,
+"y": 1208,
+"round": false
+},
+{
+"name": "Bjela\u0161nica",
+"grey": false,
+"x": 1208,
 "y": 1208,
 "round": false
 },
 {
 "name": "Bjela\u0161nica",
 "grey": true,
-"x": 808,
+"x": 1408,
 "y": 1208,
 "round": false
 },
 {
 "name": "Kola\u0161in",
 "grey": true,
-"x": 1008,
+"x": 1608,
+"y": 1208,
+"round": false
+},
+{
+"name": "Popova \u0160apka",
+"grey": false,
+"x": 1808,
 "y": 1208,
 "round": false
 },
 {
 "name": "Popova \u0160apka",
 "grey": true,
-"x": 1208,
+"x": 2008,
 "y": 1208,
 "round": false
 },
 {
 "name": "Poiana Brasov",
 "grey": true,
-"x": 1408,
+"x": 2208,
 "y": 1208,
 "round": false
 },
 {
 "name": "Borovets",
 "grey": true,
-"x": 1608,
-"y": 1208,
-"round": false
-},
-{
-"name": "Spindleruv Mlyn",
-"grey": true,
-"x": 1808,
-"y": 1208,
-"round": false
-},
-{
-"name": "Uludag",
-"grey": true,
-"x": 2008,
-"y": 1208,
-"round": false
-},
-{
-"name": "Rosa Khutor",
-"grey": true,
-"x": 2208,
-"y": 1208,
-"round": false
-},
-{
-"name": "Shymbulak",
-"grey": true,
 "x": 8,
 "y": 1408,
 "round": false
 },
 {
-"name": "Dizin",
+"name": "Spindleruv Mlyn",
 "grey": true,
 "x": 208,
 "y": 1408,
 "round": false
 },
 {
-"name": "Nozawa Onsen",
+"name": "Uludag",
 "grey": true,
 "x": 408,
 "y": 1408,
 "round": false
 },
 {
-"name": "Glenshee",
+"name": "Rosa Khutor",
 "grey": true,
 "x": 608,
 "y": 1408,
 "round": false
 },
 {
-"name": "Trysil",
+"name": "Shymbulak",
 "grey": true,
 "x": 808,
 "y": 1408,
 "round": false
 },
 {
-"name": "Big Sky",
+"name": "Dizin",
 "grey": true,
 "x": 1008,
 "y": 1408,
 "round": false
 },
 {
-"name": "Taos",
+"name": "Nozawa Onsen",
 "grey": true,
 "x": 1208,
 "y": 1408,
 "round": false
 },
 {
-"name": "Telluride",
-"grey": true,
+"name": "Glenshee",
+"grey": false,
 "x": 1408,
 "y": 1408,
 "round": false
 },
 {
-"name": "Stowe",
+"name": "Glenshee",
 "grey": true,
 "x": 1608,
 "y": 1408,
 "round": false
 },
 {
-"name": "Alta",
+"name": "Trysil",
 "grey": true,
 "x": 1808,
 "y": 1408,
 "round": false
 },
 {
-"name": "Revelstoke",
+"name": "Big Sky",
 "grey": true,
 "x": 2008,
 "y": 1408,
 "round": false
 },
 {
-"name": "Lake Louise",
+"name": "Taos",
 "grey": true,
 "x": 2208,
 "y": 1408,
 "round": false
 },
 {
-"name": "Mt Hutt",
+"name": "Telluride",
 "grey": true,
 "x": 8,
 "y": 1608,
 "round": false
 },
 {
-"name": "Perisher",
+"name": "Stowe",
 "grey": true,
 "x": 208,
 "y": 1608,
 "round": false
 },
 {
-"name": "Valle Nevado",
+"name": "Alta",
 "grey": true,
 "x": 408,
 "y": 1608,
 "round": false
 },
 {
-"name": "Las Le\u00f1as",
+"name": "Revelstoke",
 "grey": true,
 "x": 608,
+"y": 1608,
+"round": false
+},
+{
+"name": "Lake Louise",
+"grey": true,
+"x": 808,
+"y": 1608,
+"round": false
+},
+{
+"name": "Mt Hutt",
+"grey": true,
+"x": 1008,
+"y": 1608,
+"round": false
+},
+{
+"name": "Perisher",
+"grey": true,
+"x": 1208,
+"y": 1608,
+"round": false
+},
+{
+"name": "Valle Nevado",
+"grey": true,
+"x": 1408,
+"y": 1608,
+"round": false
+},
+{
+"name": "Las Le\u00f1as",
+"grey": true,
+"x": 1608,
 "y": 1608,
 "round": false
 }
