@@ -241,15 +241,15 @@ Keeps: rewind, the pause menu, back to the top, the ski map (opened by hand).
 
 Each phase ends with build, tests, publish to peak-season-test and a commit.
 
-| Phase | Work | Size |
+| Phase | Work | Time (my working time, incl. builds and shot checks) |
 |---|---|---|
-| B1 | Board mesh, sidecut, bones, bindings, six graphics, guests share it | 1 day |
-| B2 | Poses: stance, heel/toe, hand drag, bomb, brake, butters, ollie, 8 grabs, landings, drop-in strap, flats, chairlift, crashes | 2 days |
-| B3 | Feel numbers, stance setting, heel/toe mapping, butter landing / Revert, calibration | 1 day |
-| B4 | Trick names and unit tests | 0.5 day |
-| B5 | Tracks, spray, sounds | 0.5–1 day |
-| B6 | Gear switch UI, pop-up gear chip, ghost gear, board art button, first ride tips | 1 day |
-| Z1 | Zen mode: remove/fade, fresh powder, weather, calm music, camera, polish, entry points | 1 day |
-| T | Full verification, peaktest, tricktest, phone check | 0.5 day |
+| B1 | Board mesh, sidecut, bones, bindings, six graphics, guests share it | 30–45 min |
+| B2 | Poses: stance, heel/toe, hand drag, bomb, brake, butters, ollie, 8 grabs, landings, drop-in strap, flats, chairlift, crashes | 1.5–2 h |
+| B3 | Feel numbers, stance setting, heel/toe mapping, butter landing / Revert, calibration | 30–45 min |
+| B4 | Trick names and unit tests | 15–20 min |
+| B5 | Tracks, spray, sounds | 30 min |
+| B6 | Gear switch UI, pop-up gear chip, ghost gear, board art button, first ride tips | 30–45 min |
+| Z1 | Zen mode: remove/fade, fresh powder, weather, calm music, camera, polish, entry points | 30–45 min |
+| T | Full verification, peaktest, tricktest, phone check | 20 min |
 
 Check-ins: after B2 (does the board rider look right?) and at the end. Z1 can go first if you want Zen sooner (it is independent).
