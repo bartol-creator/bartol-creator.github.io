@@ -2,6 +2,8 @@
 
 Status: plan written 2026-11-25. Bartol went to sleep and said: plan, then build overnight, publishing to the test page after each tested step.
 
+Build status 2026-11-26: P1 to P7 done, published to peak-season-test, peaktest PASS (now with a challenge section). Calibration lessons and the final bot table are in section 12.
+
 ## 1. What Bartol asked for
 
 - Challenges modelled closely on Grand Mountain Adventure 2.
@@ -259,3 +261,13 @@ Test hooks (`Boot.Test`):
 - **Auto-placed gates may sit oddly on some real-resort runs** with sharp bends. The bot test catches courses that can't be finished, but not ugly ones, so screenshots of each mountain go in the report.
 - **Ghost storage on iPhone Safari:** IndexedDB may be cleared in private mode. The ghost silently disappears then, and ranks (PlayerPrefs) behave the same as they do now.
 - **Auto trick kickers in Resort mode** take some ground on his mountain. Buildings are refused there, and it can be revisited.
+
+## 12. Build notes (2026-11-26)
+
+- Par model: the rider's own turn limit, v <= TurnShare * 3.375 R / (1 + 0.0625 R) with TurnShare 0.8. The bot's raw time is about 0.99x par.
+- The planner rejects a course (race or trick) that is ridden more than half its length above 33 m/s, or that has a flight over 40 m off a drop. The par ride follows a ballistic arc wherever the ground falls away. This removes Kestrel's Face and Valley races. Kestrel keeps one trick run (Bowl).
+- Gates: none in roll landings. Gaps run 24 to 40 m, and offsets shrink on steep ground. A start must be sloped, and a flat tail ends the course.
+- RaceBot: pure pursuit, no braking in races (a brake is a hockey stop). It pushes off on flats and swings off tree trunks.
+- Rider: a rewind or a reset to a safe spot no longer cancels a run. Only going back to the top does. Place() seeds a safe spot.
+- Birch Glade Flags: moved into the north valley. The old line crossed the ridge to the creek, which no one could ride.
+- Bot calibration (13 m/s), run 6: every race ranked clean or with 1 miss, except Glacier road (5 misses, Blue). Trick runs rank Green to Black. Bot misses on Kestrel Bowl, Kranjska Vitranc, the Village Slalom misses and the Barn Jump crash are bot limits (switch landings, no carving). The courses themselves are fine.
