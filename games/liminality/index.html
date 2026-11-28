@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0a09">
+  <title>Liminality: Dead Air</title>
+  <meta name="description" content="A free first-person found-footage horror game set in the Backrooms. Download for Windows, Mac or Linux.">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="../../">&larr; All games</a>
+    <div class="shot vhs hero">
+      <span class="osd rec">REC</span><span class="osd play">SP</span><span class="osd stamp">LEVEL 0</span>
+      <img src="../../assets/liminality.jpg" alt="An empty, fluorescent-lit office in the Backrooms" width="1600" height="900">
+    </div>
+    <h1 class="title">Liminality: Dead Air</h1>
+    <p class="lede">You were recording something ordinary. Then you stepped wrong, and the world peeled away. All you have is the camcorder, and the camcorder sees things you don't.</p>
+    <p class="note"><strong>Early Access.</strong> Levels 0, 1 and 2 are playable, but the ending isn't recorded yet: the tape currently stops at the hatch out of Level 2. <strong>Content warning:</strong> horror, realistic dead bodies, blood and a skinless creature.</p>
+
+    <section id="download">
+      <h2>Download</h2>
+      <p id="phone-note" hidden>This game runs on a computer, not a phone or tablet. Open this page on a computer to download it.</p>
+      <div class="downloads">
+        <a class="dl" data-os="windows" href="https://github.com/bartol-creator/bartol-creator.github.io/releases/download/liminality-0.1/Liminality-Windows.zip"><strong>Windows</strong><span>64-bit &middot; 318 MB</span></a>
+        <a class="dl" data-os="mac" href="https://github.com/bartol-creator/bartol-creator.github.io/releases/download/liminality-0.1/Liminality-Mac-AppleSilicon.zip"><strong>Mac (Apple Silicon)</strong><span>M1 and newer &middot; 308 MB</span></a>
+        <a class="dl" data-os="mac" href="https://github.com/bartol-creator/bartol-creator.github.io/releases/download/liminality-0.1/Liminality-Mac-Intel.zip"><strong>Mac (Intel)</strong><span>Older Macs &middot; 310 MB</span></a>
+        <a class="dl" data-os="linux" href="https://github.com/bartol-creator/bartol-creator.github.io/releases/download/liminality-0.1/Liminality-Linux.tar.gz"><strong>Linux</strong><span>64-bit &middot; 318 MB</span></a>
+      </div>
+    </section>
+
+    <dialog id="computer-only" aria-labelledby="computer-only-title">
+      <h2 id="computer-only-title">You need a computer for this one</h2>
+      <p>Liminality: Dead Air runs on Windows, Mac and Linux. It doesn't work on phones or tablets.</p>
+      <p>Open this page on a computer to download it. Copy the link to send it to yourself.</p>
+      <div class="dialog-row">
+        <button type="button" id="copy-link">Copy link</button>
+        <button type="button" id="close-dialog" class="quiet">OK</button>
+      </div>
+    </dialog>
+
+    <section id="install">
+      <h2>How to install</h2>
+      <p>There's no installer. You unpack a folder and run the game from it. Your computer will probably warn you the first time, because this is a free indie game that isn't registered with Microsoft or Apple. These steps get you past that.</p>
+      <div class="tabs" role="tablist" aria-label="Operating system">
+        <button type="button" role="tab" id="tab-windows" aria-controls="windows" aria-selected="true">Windows</button>
+        <button type="button" role="tab" id="tab-mac" aria-controls="mac" aria-selected="false">Mac</button>
+        <button type="button" role="tab" id="tab-linux" aria-controls="linux" aria-selected="false">Linux</button>
+      </div>
+
+      <div class="panel" id="windows" role="tabpanel" aria-labelledby="tab-windows">
+        <ol>
+          <li>Download <code>Liminality-Windows.zip</code>.</li>
+          <li>Right-click the file in your Downloads folder and choose <strong>Extract All&hellip;</strong>, then <strong>Extract</strong>. Don't run the game from inside the zip, because it won't find its files.</li>
+          <li>Open the new folder and double-click <code>Liminality.exe</code>.</li>
+          <li>If a blue "Windows protected your PC" box appears, click <strong>More info</strong>, then <strong>Run anyway</strong>. You only need to do this once.</li>
+        </ol>
+        <h3>To uninstall</h3>
+        <p>Delete the folder. Saves and settings are in <code>%USERPROFILE%\AppData\LocalLow\Bartol Kaluder</code>, and you can delete that folder too.</p>
+      </div>
+
+      <div class="panel" id="mac" role="tabpanel" aria-labelledby="tab-mac" hidden>
+        <ol>
+          <li>Download the version for your Mac. To check which one you have, open the Apple menu and choose <strong>About This Mac</strong>: "Chip: Apple M&hellip;" means Apple Silicon, and "Processor: &hellip;Intel&hellip;" means Intel. Safari usually unpacks the zip for you. If it doesn't, double-click it.</li>
+          <li>Drag <code>Liminality.app</code> into your <strong>Applications</strong> folder.</li>
+          <li>Double-click it. macOS will refuse to open it and say it can't check the app for malware. Click <strong>Done</strong> or <strong>OK</strong>.</li>
+          <li>Open <strong>System Settings &rarr; Privacy &amp; Security</strong> and scroll down to the Security section. Next to the message about Liminality, click <strong>Open Anyway</strong>, then confirm with your password or Touch ID.</li>
+          <li>From now on it opens normally.</li>
+        </ol>
+        <h3>If it says the app "is damaged"</h3>
+        <p>Open <strong>Terminal</strong>, paste this line and press Return, then open the game again:</p>
+        <pre><code>xattr -dr com.apple.quarantine /Applications/Liminality.app</code></pre>
+        <h3>To uninstall</h3>
+        <p>Drag the app to the Trash. Saves and settings are in <code>~/Library/Application Support/com.bartolkaluder.liminality</code>, and you can delete that folder too.</p>
+      </div>
+
+      <div class="panel" id="linux" role="tabpanel" aria-labelledby="tab-linux" hidden>
+        <ol>
+          <li>Download <code>Liminality-Linux.tar.gz</code>.</li>
+          <li>Open a terminal in your Downloads folder and unpack it:
+            <pre><code>tar -xzf Liminality-Linux.tar.gz</code></pre>
+          </li>
+          <li>Run the game:
+            <pre><code>cd Liminality-Linux &amp;&amp; ./Liminality.x86_64</code></pre>
+          </li>
+        </ol>
+        <h3>To uninstall</h3>
+        <p>Delete the <code>Liminality-Linux</code> folder. Saves and settings are in <code>~/.config/unity3d/Bartol Kaluder</code>, and you can delete that too.</p>
+      </div>
+    </section>
+
+    <section id="controls">
+      <h2>Controls</h2>
+      <table>
+        <tr><th scope="row">Move</th><td>WASD or arrow keys</td></tr>
+        <tr><th scope="row">Look</th><td>Mouse</td></tr>
+        <tr><th scope="row">Sprint</th><td>Left Shift</td></tr>
+        <tr><th scope="row">Jump</th><td>Space</td></tr>
+        <tr><th scope="row">Crouch</th><td>C or Left Ctrl</td></tr>
+        <tr><th scope="row">Interact</th><td>E</td></tr>
+        <tr><th scope="row">Look through the camcorder</th><td>Hold right mouse button</td></tr>
+        <tr><th scope="row">Use item</th><td>Left mouse button</td></tr>
+        <tr><th scope="row">Flashlight</th><td>F</td></tr>
+        <tr><th scope="row">Night vision</th><td>N</td></tr>
+        <tr><th scope="row">Rewind</th><td>R</td></tr>
+        <tr><th scope="row">Inventory</th><td>Tab</td></tr>
+        <tr><th scope="row">Throw</th><td>G</td></tr>
+        <tr><th scope="row">Chalk symbol</th><td>Middle mouse button</td></tr>
+        <tr><th scope="row">Pause</th><td>Esc</td></tr>
+      </table>
+      <p>Gamepads work too, and you can change keys in the game's SETUP menu.</p>
+    </section>
+
+    <section id="credits" class="credits">
+      <h2>Credits</h2>
+      <p><strong>Music in the preview video</strong><a href="https://opengameart.org/content/dark-cavern-ambient">Dark Cavern Ambient</a> by Paul Wortmann, public domain (CC0).</p>
+      <p><strong>Design and direction</strong>Bartol Kaluđer. Programming, sound and art built with Claude (Anthropic), in Unity 6.</p>
+      <p><strong>3D scans by Renderpeople, via Sketchfab, licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></strong>
+        <a href="https://sketchfab.com/3d-models/eric-rigged-001-rigged-3d-business-man-a46bc9f67aaa415bb4f3241eef900e7f">Eric Rigged 001</a>,
+        <a href="https://sketchfab.com/3d-models/carla-rigged-001-rigged-3d-business-women-acf520f450d14dd799f98a6fede3edf5">Carla Rigged 001</a>,
+        <a href="https://sketchfab.com/3d-models/claudia-rigged-002-3d-rigged-business-women-c659bd0accab47c6bbe390cf822a2b92">Claudia Rigged 002</a>,
+        <a href="https://sketchfab.com/3d-models/nathan-animated-003-walking-3d-man-143a2b1ea5eb4385ae90a73657aca3bc">Nathan Animated 003</a>,
+        <a href="https://sketchfab.com/3d-models/manuel-animated-001-3d-dancing-man-e65e0fef4e0743868c8d5bff36d61116">Manuel Animated 001</a> and
+        <a href="https://sketchfab.com/3d-models/sophia-animated-003-animated-3d-woman-dc448c3be0e74f96a55fb475a13433cf">Sophia Animated 003</a>. Modified: posed, reshaped, aged and bloodied for this game.</p>
+      <p><strong>3D models via Sketchfab, licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></strong>
+        <a href="https://sketchfab.com/3d-models/metal-school-lockers-7f1460adacd346a4a68c3e5f7a5d0d43">Metal School Lockers</a> by Zixel,
+        <a href="https://sketchfab.com/3d-models/file-cabinet-f0742791a0ea432db1f432c24de83867">File Cabinet</a> by Siberia,
+        <a href="https://sketchfab.com/3d-models/office-chair-2635389a81df496182569c824f9b8d99">Office Chair</a> by projectkaizen,
+        <a href="https://sketchfab.com/3d-models/mesa-para-conferencias-a298bb7b427249fa8db82d8ac7bd5988">Mesa Para Conferencias</a> by franciscomedina77 and
+        <a href="https://sketchfab.com/3d-models/retro-office-props-65e47619f5114df89fd26db1fa7f9d7f">Retro Office Props</a> by YJ_. Modified: cut, hinged, simplified and retinted.</p>
+      <p><strong>Surfaces and props (CC0)</strong>Photoscanned materials from <a href="https://ambientcg.com">ambientCG</a> and props from <a href="https://polyhaven.com">Poly Haven</a>.</p>
+      <p><strong>Breathing</strong>Recorded by ezwa ("Heavy breathing 2") and hugh ("Breathing man"), public domain, via Wikimedia Commons.</p>
+      <p><strong>Inspired by</strong>The Backrooms, from a 2019 post on 4chan's /x/, and the Kane Pixels found-footage series.</p>
+    </section>
+
+    <footer><a href="../../">More games</a></footer>
+  </div>
+  <script>
+    (function () {
+      // iPads say they're Macs, so a Mac with a touch screen counts as a tablet too.
+      var ua = navigator.userAgent, phone = /iPhone|iPad|iPod|Android/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+      var os = phone ? null : /Windows/i.test(ua) ? "windows" : /Mac/i.test(ua) ? "mac" : /Linux/i.test(ua) ? "linux" : null;
+      document.getElementById("phone-note").hidden = !phone;
+      var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+      function select(id) {
+        tabs.forEach(function (tab) {
+          var on = tab.getAttribute("aria-controls") === id;
+          tab.setAttribute("aria-selected", on);
+          document.getElementById(tab.getAttribute("aria-controls")).hidden = !on;
+        });
+      }
+      tabs.forEach(function (tab) { tab.onclick = function () { select(tab.getAttribute("aria-controls")); }; });
+      var dialog = document.getElementById("computer-only"), copy = document.getElementById("copy-link");
+      document.getElementById("close-dialog").onclick = function () { dialog.close(); };
+      copy.onclick = function () {
+        var link = location.href.split("#")[0];
+        function done() { copy.textContent = "Link copied"; }
+        if (navigator.clipboard) navigator.clipboard.writeText(link).then(done, function () { prompt("Copy this link:", link); });
+        else prompt("Copy this link:", link);
+      };
+      document.querySelectorAll(".dl").forEach(function (a) {
+        a.addEventListener("click", function (e) {
+          // On a phone or tablet the download is no use, so explain instead of sending them to the file.
+          if (phone) {
+            e.preventDefault();
+            copy.textContent = "Copy link";
+            if (dialog.showModal) dialog.showModal(); else alert("Liminality: Dead Air runs on a computer, not a phone or tablet. Open this page on a computer to download it.");
+            return;
+          }
+          select(a.dataset.os);
+        });
+      });
+      if (os) {
+        select(os);
+        document.querySelectorAll('.dl[data-os="' + os + '"]').forEach(function (a, i) {
+          a.classList.add("yours");
+          a.parentNode.insertBefore(a, a.parentNode.children[i]);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

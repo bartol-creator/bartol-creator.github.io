@@ -1,0 +1,14 @@
+{
+  "name": "Peak Season",
+  "short_name": "Peak Season",
+  "start_url": "../",
+  "scope": "../",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#dfe7f2",
+  "theme_color": "#3d7dd1",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

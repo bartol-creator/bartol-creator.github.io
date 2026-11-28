@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Peak Season">
+  <link rel="icon" href="TemplateData/icon-192.png">
+  <link rel="manifest" href="TemplateData/manifest.json">
+  <link rel="apple-touch-icon" href="TemplateData/icon-180.png">
+  <meta name="theme-color" content="#22306b">
+  <title>Peak Season</title>
+  <meta name="description" content="Ski or snowboard down a hazy low-poly mountain, hit the park and chain tricks. Play free in your browser, on a computer or a phone.">
+  <link rel="stylesheet" href="TemplateData/style.css">
+</head>
+<body>
+  <canvas id="game" tabindex="-1" aria-label="Peak Season"></canvas>
+
+  <div id="bar">
+    <a id="home" href="../../">&larr; All games</a>
+    <button id="fullscreen" type="button" hidden>Fullscreen</button>
+  </div>
+
+  <div id="loading">
+    <!-- Golden hour on the mountain: parallax ranges, a chairlift, falling snow, and a skier who carves the run
+         down the peak as the game loads (the orange track is the progress), then sends the kicker. -->
+    <svg id="scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs>
+        <radialGradient id="ld-glow" cx="1180" cy="300" r="420" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#fff2c8" stop-opacity=".95"/>
+          <stop offset=".3" stop-color="#ffc58a" stop-opacity=".45"/>
+          <stop offset="1" stop-color="#ff9a7a" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="ld-sun" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fffbe8"/><stop offset="1" stop-color="#ffd27a"/></linearGradient>
+        <linearGradient id="ld-lit" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#ffe2cc"/></linearGradient>
+        <linearGradient id="ld-shade" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9497db"/><stop offset="1" stop-color="#6b6dbf"/></linearGradient>
+        <linearGradient id="ld-snow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e2e5fa"/></linearGradient>
+      </defs>
+      <g class="stars" fill="#fff">
+        <circle cx="140" cy="90" r="2.6"/><circle cx="320" cy="50" r="1.8"/><circle cx="520" cy="130" r="2"/><circle cx="760" cy="60" r="1.6"/>
+        <circle cx="1440" cy="80" r="2.4"/><circle cx="1540" cy="190" r="1.6"/><circle cx="60" cy="230" r="1.5"/><circle cx="980" cy="110" r="1.8"/>
+      </g>
+      <circle class="glow" cx="1180" cy="300" r="420" fill="url(#ld-glow)"/>
+      <circle cx="1180" cy="300" r="112" fill="url(#ld-sun)"/>
+      <g class="far">
+        <polygon fill="#a08bcb" points="-60,520 120,430 260,490 420,400 560,480 700,430 860,500 1020,420 1200,490 1360,410 1520,480 1660,440 1660,900 -60,900"/>
+        <polygon fill="#8f7bc2" points="420,400 460,560 360,560"/><polygon fill="#8f7bc2" points="1360,410 1410,580 1300,580"/><polygon fill="#8f7bc2" points="1020,420 1060,540 980,540"/>
+      </g>
+      <g class="mid">
+        <polygon fill="#b9b0e6" points="-60,640 160,520 330,600 520,500 700,620 1180,640 1340,540 1520,610 1660,560 1660,900 -60,900"/>
+        <polygon fill="#a59ddd" points="520,500 580,700 470,700"/><polygon fill="#a59ddd" points="1340,540 1400,720 1290,720"/>
+        <!-- chairlift over the left shoulder -->
+        <path id="ld-cable" d="M150 760 L620 470" stroke="#3a3f6e" stroke-width="2.5" fill="none"/>
+        <g fill="#3a3f6e"><rect x="292" y="672" width="7" height="110"/><rect x="478" y="558" width="7" height="110"/><rect x="282" y="668" width="27" height="6"/><rect x="468" y="554" width="27" height="6"/></g>
+        <g class="chairs">
+          <g><path d="M0 0 V26 M-12 26 H12 V34 H-12 Z M-12 26 V14" stroke="#3a3f6e" stroke-width="3" fill="#ff6a3a"/><animateMotion dur="16s" repeatCount="indefinite" begin="0s" path="M150 760 L620 470"/></g>
+          <g><path d="M0 0 V26 M-12 26 H12 V34 H-12 Z M-12 26 V14" stroke="#3a3f6e" stroke-width="3" fill="#4f7de0"/><animateMotion dur="16s" repeatCount="indefinite" begin="-5.3s" path="M150 760 L620 470"/></g>
+          <g><path d="M0 0 V26 M-12 26 H12 V34 H-12 Z M-12 26 V14" stroke="#3a3f6e" stroke-width="3" fill="#ffb22e"/><animateMotion dur="16s" repeatCount="indefinite" begin="-10.6s" path="M150 760 L620 470"/></g>
+        </g>
+      </g>
+      <g class="peak">
+        <polygon fill="url(#ld-lit)" points="900,240 420,900 1010,900"/>
+        <polygon fill="url(#ld-shade)" points="900,240 1010,900 1480,900"/>
+        <polygon fill="#ffffff" points="900,240 820,420 920,360"/>
+        <polygon fill="#f1e4ef" points="900,240 920,360 960,470 1010,900 960,900"/>
+        <polygon fill="#5f60b0" points="900,240 990,420 950,450"/>
+        <polygon fill="#5a5aa8" points="1060,530 1140,640 1090,650"/>
+        <polygon fill="#5a5aa8" points="1180,700 1270,800 1210,810"/>
+        <polygon fill="#ffeee2" points="610,700 700,590 740,760"/>
+        <!-- the course ahead (faint dots) and the carved track (orange, drawn as the game loads) -->
+        <path id="ld-course" d="M893 290 C846 360 968 410 902 480 S778 560 846 636 S1010 706 1096 724" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 16" opacity=".85"/>
+        <path id="ld-run-shadow" d="M893 290 C846 360 968 410 902 480 S778 560 846 636 S1010 706 1096 724" fill="none" stroke="#c84e12" stroke-width="16" stroke-linecap="round" opacity=".3" transform="translate(3 4)"/>
+        <path id="ld-run" d="M893 290 C846 360 968 410 902 480 S778 560 846 636 S1010 706 1096 724" fill="none" stroke="#ff7a1f" stroke-width="12" stroke-linecap="round"/>
+        <polygon fill="#ffffff" points="1060,742 1140,700 1150,744"/>
+      </g>
+      <g class="front">
+        <path d="M-60 780 C200 740 420 800 640 772 C860 744 1000 800 1240 770 C1420 750 1540 776 1660 764 L1660 900 L-60 900 Z" fill="url(#ld-snow)"/>
+        <g fill="#1f4f4a">
+          <polygon points="60,810 100,690 140,810"/><polygon points="70,756 100,656 130,756"/><rect x="95" y="806" width="10" height="20" fill="#3b2a22"/>
+          <polygon points="150,836 180,746 210,836"/><polygon points="158,790 180,720 202,790"/>
+          <polygon points="250,820 272,756 294,820"/>
+          <polygon points="1380,822 1420,700 1460,822"/><polygon points="1390,766 1420,666 1450,766"/><rect x="1415" y="818" width="10" height="18" fill="#3b2a22"/>
+          <polygon points="1480,840 1508,760 1536,840"/><polygon points="1300,836 1322,774 1344,836"/>
+        </g>
+        <g fill="#fff"><polygon points="100,656 112,690 88,690"/><polygon points="1420,666 1432,700 1408,700"/><polygon points="180,720 190,748 170,748"/></g>
+      </g>
+      <g id="ld-skier">
+        <g class="body">
+          <g stroke-linecap="round" stroke-linejoin="round" fill="none">
+            <line x1="-34" y1="0" x2="34" y2="0" stroke="#1b2248" stroke-width="6"/>
+            <polyline points="-4,-30 12,-16 2,-2" stroke="#1b2248" stroke-width="10"/>
+            <polyline points="-8,-28 6,-12 -6,-2" stroke="#2a3366" stroke-width="9"/>
+            <line x1="-4" y1="-30" x2="4" y2="-56" stroke="#ff5a36" stroke-width="15"/>
+            <polyline points="2,-52 18,-38 24,-20" stroke="#ff5a36" stroke-width="6"/>
+            <polyline points="0,-52 -16,-40 -26,-22" stroke="#ff5a36" stroke-width="6"/>
+            <line x1="24" y1="-20" x2="30" y2="0" stroke="#3a3f6e" stroke-width="2.5"/>
+          </g>
+          <circle cx="7" cy="-68" r="9" fill="#1b2248"/>
+          <path d="M8 -70 Q14 -66 17 -70" stroke="#ffd27a" stroke-width="4" fill="none" stroke-linecap="round"/>
+        </g>
+      </g>
+    </svg>
+    <canvas id="flakes" aria-hidden="true"></canvas>
+    <div class="head">
+      <p class="tag">Build it &middot; Ride it</p>
+      <h1 class="logo">PEAK SEASON</h1>
+    </div>
+    <div class="card">
+      <p id="status">Waxing skis&hellip; 0%</p>
+      <div class="tank">
+        <div id="track" role="progressbar" aria-label="Loading" aria-valuemin="0" aria-valuemax="100"><div id="fill"></div></div>
+      </div>
+      <p class="hint" id="hint">A/D steer &middot; W tuck &middot; S brake &middot; hold Space to jump &middot; Shift grab &middot; C manual &middot; R reset &middot; T back to the top</p>
+    </div>
+  </div>
+
+  <div id="notice" hidden>
+    <h2 id="notice-title"></h2>
+    <p id="notice-text"></p>
+    <a href="../../">Back to all games</a>
+  </div>
+
+  <p id="credit" style="position:fixed;right:10px;bottom:6px;margin:0;z-index:1;font:11px Helvetica,Arial,sans-serif;color:#5a6a86">Skier: <a href="https://sketchfab.com/3d-models/skier-low-poly-character-13ae2a85b3af43ab8b1e984c8f8c87e2" style="color:inherit">"Skier low poly character"</a> by Sweed, CC BY 4.0</p>
+
+  <div id="rotate" role="alertdialog" aria-live="polite" aria-labelledby="rotate-title">
+    <div class="card">
+      <svg class="phone" viewBox="0 0 64 64" aria-hidden="true"><rect x="20" y="6" width="24" height="52" rx="4"/><line x1="29" y1="51" x2="35" y2="51"/></svg>
+      <p class="tag">Peak Season plays sideways</p>
+      <p id="rotate-title" class="title">Turn your phone</p>
+      <p class="sub">The slope is wider that way.</p>
+    </div>
+  </div>
+  <button id="install" type="button" hidden>For full screen, tap Share, then Add to Home Screen, and open it from there. &times;</button>
+
+  <script>
+    (function () {
+      var canvas = document.getElementById("game");
+      var loading = document.getElementById("loading");
+      var fill = document.getElementById("fill");
+      var track = document.getElementById("track");
+      var status = document.getElementById("status");
+      var notice = document.getElementById("notice");
+      var mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      window.peakMobile = mobile;   // the game asks for it: Unity takes an iPad for a Mac
+
+      // Phones get pixels up to a budget of 2 million, computers up to 1.5x within 3.7 million (as Coldsnap measured).
+      function pixelRatio() {
+        var native = window.devicePixelRatio || 1;
+        if (!mobile) return Math.min(native, 1.5, Math.sqrt(3700000 / (screen.width * screen.height)));
+        return Math.min(native, Math.sqrt(2000000 / (screen.width * screen.height)));
+      }
+
+      // Browsers only allow fullscreen in response to a tap, so every tap asks until it's granted.
+      function goFullscreen() {
+        var root = document.documentElement;
+        var request = root.requestFullscreen || root.webkitRequestFullscreen;
+        if (!request || document.fullscreenElement || document.webkitFullscreenElement) return;
+        var result = request.call(root, { navigationUI: "hide" });
+        if (result && result.then) result.then(function () {
+          if (screen.orientation && screen.orientation.lock) return screen.orientation.lock("landscape");
+        }).catch(function () {});
+      }
+
+      // iPhone Safari has no fullscreen for pages; only a game opened from the Home Screen fills the display.
+      function offerInstall() {
+        var iphone = /iPhone|iPod/i.test(navigator.userAgent);
+        var dismissed = false;
+        try { dismissed = localStorage.getItem("peak-install-hint") === "1"; } catch (e) {}
+        if (!iphone || navigator.standalone || dismissed) return;
+        var hint = document.getElementById("install");
+        hint.hidden = false;
+        setTimeout(function () { hint.hidden = true; }, 10000);
+        hint.onclick = function () {
+          hint.hidden = true;
+          try { localStorage.setItem("peak-install-hint", "1"); } catch (e) {}
+        };
+      }
+
+      function show(title, text) {
+        document.getElementById("notice-title").textContent = title;
+        document.getElementById("notice-text").textContent = text;
+        notice.hidden = false;
+        loading.hidden = true;
+      }
+
+      // Waxing, then the rest of the pre-ride ritual as the bar fills.
+      var steps = ["Waxing skis", "Grooming the run", "Sharpening edges", "Spinning up the lifts", "Building the kickers", "Hanging the flags"];
+
+      // ---- the loading scene: the skier rides the run as far as the bar has filled, snow falls, spray flies
+      var scene = (function () {
+        var still = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var svg = document.getElementById("scene"), run = document.getElementById("ld-run"), runShadow = document.getElementById("ld-run-shadow");
+        var skier = document.getElementById("ld-skier"), cv = document.getElementById("flakes"), ctx = cv.getContext("2d");
+        var len = run.getTotalLength(), want = 0, at = 0, alive = true, last = performance.now(), flakes = [], puffs = [];
+        run.style.strokeDasharray = runShadow.style.strokeDasharray = len + " " + len;
+        // the letters of the logo drop in one by one, then a wave runs through them now and then
+        var logo = document.querySelector("#loading .logo"), text = logo.textContent;
+        logo.textContent = "";
+        logo.setAttribute("aria-label", text);
+        for (var i = 0; i < text.length; i++) {
+          var span = document.createElement("span");
+          span.textContent = text[i] === " " ? "\u00a0" : text[i];
+          span.style.setProperty("--i", i);
+          span.setAttribute("aria-hidden", "true");
+          logo.appendChild(span);
+        }
+        function size() {
+          var r = window.devicePixelRatio > 1 ? 1.5 : 1;
+          cv.width = Math.round(innerWidth * r); cv.height = Math.round(innerHeight * r);
+          ctx.setTransform(r, 0, 0, r, 0, 0);
+          var n = still ? 0 : Math.min(mobile ? 70 : 140, Math.round(innerWidth * innerHeight / 9000));
+          flakes = [];
+          for (var k = 0; k < n; k++) flakes.push({ x: Math.random() * innerWidth, y: Math.random() * innerHeight, r: 0.8 + Math.random() * 2.4, s: 18 + Math.random() * 40, w: Math.random() * 6.28 });
+        }
+        size();
+        addEventListener("resize", size);
+        function place(p, dt) {
+          var d = p * len, a = run.getPointAtLength(Math.max(0, d - 2)), b = run.getPointAtLength(Math.min(len, d + 2));
+          var dx = b.x - a.x, dy = b.y - a.y, face = dx < 0 ? -1 : 1;
+          var lean = Math.max(-35, Math.min(35, Math.atan2(dy, Math.abs(dx) + 0.001) * 57.3));
+          var pt = run.getPointAtLength(d);
+          skier.setAttribute("transform", "translate(" + pt.x.toFixed(1) + " " + pt.y.toFixed(1) + ") scale(" + face + " 1) rotate(" + lean.toFixed(1) + ")");
+          run.style.strokeDashoffset = runShadow.style.strokeDashoffset = (len - d).toFixed(1);
+          // spray off the edges while carving
+          if (!still && dt > 0 && Math.abs(want - at) > 0.002) {
+            var m = svg.getScreenCTM();
+            if (m) {
+              var sp = svg.createSVGPoint(); sp.x = pt.x - face * 20; sp.y = pt.y; sp = sp.matrixTransform(m);
+              for (var q = 0; q < 2; q++) puffs.push({ x: sp.x, y: sp.y, vx: -face * (20 + Math.random() * 60), vy: -30 - Math.random() * 50, life: 0.7, r: 2 + Math.random() * 3 });
+            }
+          }
+        }
+        function frame(now) {
+          if (!alive) return;
+          var dt = Math.min(0.05, (now - last) / 1000); last = now;
+          at += (want - at) * (still ? 1 : 1 - Math.exp(-dt * 3));
+          if (want - at < 0.0005) at = want;
+          place(at, dt);
+          skier.classList.toggle("send", at >= 0.999);
+          ctx.clearRect(0, 0, innerWidth, innerHeight);
+          ctx.fillStyle = "#fff";
+          for (var k = 0; k < flakes.length; k++) {
+            var f = flakes[k];
+            f.y += f.s * dt; f.w += dt; f.x += Math.sin(f.w) * 12 * dt - 8 * dt;
+            if (f.y > innerHeight + 4) { f.y = -4; f.x = Math.random() * innerWidth; }
+            if (f.x < -4) f.x = innerWidth + 4;
+            ctx.globalAlpha = 0.45 + f.r * 0.18;
+            ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, 6.283); ctx.fill();
+          }
+          for (var j = puffs.length - 1; j >= 0; j--) {
+            var u = puffs[j];
+            u.life -= dt; if (u.life <= 0) { puffs.splice(j, 1); continue; }
+            u.x += u.vx * dt; u.y += u.vy * dt; u.vy += 120 * dt;
+            ctx.globalAlpha = u.life * 1.2;
+            ctx.beginPath(); ctx.arc(u.x, u.y, u.r * (1.6 - u.life), 0, 6.283); ctx.fill();
+          }
+          ctx.globalAlpha = 1;
+          requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+        return {
+          set: function (p) { want = Math.max(want, Math.min(1, p)); },
+          stop: function () { alive = false; removeEventListener("resize", size); }
+        };
+      })();
+
+      function bar(percent) {
+        fill.style.width = percent + "%";
+        scene.set(percent / 100);
+      }
+
+      // The world map's pictures (StreamingAssets/map) download alongside the game and count in the same bar, so
+      // the map opens without a second wait. The game then reads them from the browser cache before it starts.
+      // Not when the address jumps straight into a mountain (tests): the map is only reachable from the title.
+      var mapProgress = 1, gameProgress = 0;
+      var wantsMap = !/[?&](mode|mountain|spawn|autopilot)\b/.test(location.search);
+      function prefetchMap() {
+        if (!wantsMap) return;
+        mapProgress = 0;
+        window.peakMapFetched = false;
+        var base = "StreamingAssets/map/";
+        fetch(base + "map.json").then(function (r) { return r.json(); }).then(function (meta) {
+          var files = ["badges.png", "badges.json"];
+          meta.tiers.forEach(function (t) {
+            files.push(t.name + "_h.bin");
+            files.push(t.name + (mobile && t.w > 1000 ? "_lo.jpg" : ".jpg"));
+          });
+          var got = {}, size = {};
+          function update() {
+            var a = 0, b = 0;
+            files.forEach(function (f) { a += got[f] || 0; b += size[f] || 400000; });
+            mapProgress = Math.min(1, a / b);
+            if (files.every(function (f) { return got[f] && got[f] >= size[f]; })) window.peakMapFetched = true;
+            paint();
+          }
+          files.forEach(function (f) {
+            fetch(base + f).then(function (r) {
+              size[f] = parseInt(r.headers.get("Content-Length"), 10) || 400000;
+              if (!r.body || !r.body.getReader) return r.arrayBuffer().then(function () { got[f] = size[f]; update(); });
+              var reader = r.body.getReader();
+              function pump() {
+                return reader.read().then(function (x) {
+                  if (x.done) { got[f] = size[f]; update(); return; }
+                  got[f] = Math.min(size[f], (got[f] || 0) + x.value.length); update(); return pump();
+                });
+              }
+              return pump();
+            }).catch(function () { got[f] = size[f] = 1; update(); });
+          });
+        }).catch(function () { mapProgress = 1; window.peakMapFetched = true; paint(); });
+      }
+      // the game is about 8 MB and the map about 4.5 MB: the bar weighs them roughly by size
+      function paint() {
+        if (window.peakInstance) {
+          // the game is in; the map may still be coming
+          if (!window.peakMapFetched && window.peakMapFetched !== undefined) {
+            bar(Math.round(65 + mapProgress * 35));
+            status.textContent = "Unrolling the world map… " + Math.round(mapProgress * 100) + "%";
+          }
+          return;
+        }
+        var progress = wantsMap ? gameProgress * 0.65 + mapProgress * 0.35 : gameProgress;
+        var percent = Math.round(progress * 100);
+        bar(percent);
+        track.setAttribute("aria-valuenow", percent);
+        var step = steps[Math.min(steps.length - 1, Math.floor(progress * steps.length))];
+        status.textContent = progress < 0.9 ? step + "… " + percent + "%" : "Almost there…";
+      }
+
+      function start() {
+        notice.hidden = true;
+        loading.hidden = false;
+        var script = document.createElement("script");
+        script.src = "Build/364172e5f1f9d31b4e4059db510f0d53.loader.js";
+        script.onerror = function () {
+          show("The game didn't load", "Check your connection and reload the page.");
+        };
+        script.onload = function () {
+          createUnityInstance(canvas, {
+            arguments: [],
+            dataUrl: "Build/cc2c2953fb034b6e6cb671ce919bed52.data.unityweb",
+            frameworkUrl: "Build/b1901e254f70bcad4042e322fa340041.framework.js.unityweb",
+            codeUrl: "Build/b9574228e829e537083413d8c03045c3.wasm.unityweb",
+            streamingAssetsUrl: "StreamingAssets",
+            autoSyncPersistentDataPath: true,
+            companyName: "Baki Games",
+            productName: "Peak Season",
+            productVersion: "0.0.1",
+            devicePixelRatio: pixelRatio(),
+            showBanner: function (message, type) {
+              if (type === "error") show("Something went wrong", message);
+              else console.warn(message);
+            }
+          }, function (progress) {
+            gameProgress = progress;
+            paint();
+          }).then(function (instance) {
+            // The game builds the mountain and draws its first frames behind this screen, then calls peakReady.
+            window.peakInstance = instance;   // tests drive the game through it
+            bar(100);
+            status.textContent = "Shaping the mountain…";
+            paint();
+            var shown = false;
+            window.peakReady = function () {
+              if (shown) return;
+              shown = true;
+              loading.classList.add("done");   // fades and opens up onto the game
+              setTimeout(function () { loading.hidden = true; scene.stop(); }, 650);
+              document.getElementById("credit").hidden = true;
+              canvas.focus();
+            };
+            setTimeout(window.peakReady, 45000);
+            var button = document.getElementById("fullscreen");
+            button.hidden = false;
+            button.onclick = function () { instance.SetFullscreen(1); };
+            if (mobile) offerInstall();
+          }).catch(function (message) {
+            show("The game couldn't start", String(message));
+          });
+        };
+        document.body.appendChild(script);
+        prefetchMap();
+      }
+
+      canvas.addEventListener("contextmenu", function (e) { e.preventDefault(); });   // right drag looks around
+      canvas.addEventListener("pointerdown", function () { canvas.focus(); });
+      // Keys the browser would otherwise act on (Tab moves focus, Space scrolls).
+      window.addEventListener("keydown", function (e) {
+        if (e.key === "Tab" || e.key === " " || e.key.indexOf("Arrow") === 0) e.preventDefault();
+      });
+
+      if (mobile) {
+        document.documentElement.classList.add("mobile");
+        document.getElementById("hint").textContent = "Hold the left or right side to carve that way. Hold both and let go to jump. Tap left, right, left to push off.";
+        document.addEventListener("touchend", goFullscreen);
+        canvas.addEventListener("touchmove", function (e) { e.preventDefault(); }, { passive: false });
+        // a held thumb is a long press: without this iOS can start a text selection, the magnifier or a callout and
+        // cancel the touch mid-turn; double taps can zoom. The game reads touches itself, so the page takes none.
+        canvas.addEventListener("touchstart", function (e) { e.preventDefault(); }, { passive: false });
+        document.addEventListener("selectstart", function (e) { e.preventDefault(); });
+        document.addEventListener("dblclick", function (e) { e.preventDefault(); }, { passive: false });
+        document.addEventListener("gesturestart", function (e) { e.preventDefault(); });
+      }
+
+      var gl = document.createElement("canvas").getContext("webgl2");
+      if (!gl) {
+        show("Your browser can't run this game", "It needs WebGL 2. Try an up-to-date version of Chrome, Edge, Firefox or Safari.");
+      } else {
+        start();
+      }
+    })();
+  </script>
+</body>
+</html>

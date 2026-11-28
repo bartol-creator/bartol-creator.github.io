@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+  <title>Baki Games</title>
+  <meta name="description" content="Free games from Baki Games. Play Iron &amp; Ink, Emberfall and Prop Hunt in your browser or download Liminality: Dead Air. Add Baki Games to your home screen and play them like apps.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icons/baki-192.png">
+  <link rel="apple-touch-icon" href="assets/icons/baki-180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Baki Games">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="stylesheet" href="assets/store.css?v=2">
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <div>
+        <p class="eyebrow">Free · No accounts · No ads</p>
+        <h1>Baki Games</h1>
+      </div>
+      <img class="avatar" src="assets/icons/baki-192.png" alt="" width="40" height="40">
+    </header>
+
+    <div class="install" id="install-card">
+      <img src="assets/icons/baki-192.png" alt="" width="56" height="56">
+      <div class="txt"><b>Get the Baki Games app</b><span>Add it to your Home Screen: games open full screen, like real apps.</span></div>
+      <button class="pill solid" type="button" id="install-open">Add</button>
+    </div>
+
+    <a class="featured" href="#iron-and-ink" id="featured">
+      <img src="assets/previews/iron-and-ink/poster.jpg" alt="" loading="eager">
+      <div class="shade"></div>
+      <div class="head"><p>Featured</p><h2>Lead a nation through the Second World War</h2></div>
+      <div class="foot">
+        <img src="assets/icons/iron-and-ink.png" alt="" width="44" height="44">
+        <div class="txt"><b>Iron &amp; Ink</b><span>Grand strategy · 6,000 provinces</span></div>
+        <span class="pill">Play</span>
+      </div>
+    </a>
+
+    <section class="shelf" aria-labelledby="all">
+      <h2 id="all">All games</h2>
+      <p>Tap a game to see more.</p>
+      <ul class="apps" id="apps"></ul>
+      <noscript>
+        <ul class="apps">
+          <li class="app"><a href="games/liminality/">Liminality: Dead Air</a></li>
+          <li class="app"><a href="games/iron-and-ink/">Iron &amp; Ink</a></li>
+          <li class="app"><a href="games/coldsnap/">Coldsnap</a></li>
+          <li class="app"><a href="games/emberfall/">Emberfall</a></li>
+          <li class="app"><a href="games/prop-hunt/">Prop Hunt</a></li>
+        </ul>
+      </noscript>
+    </section>
+
+    <footer>Made with Unity and Claude. Prop Hunt uses free CC0 models by <a href="https://kenney.nl">Kenney</a> and the Lilita One and Nunito fonts (SIL Open Font License). Iron &amp; Ink uses leader photographs from Wikimedia Commons (public domain and free licences, listed in the game), Natural Earth map data and open-licence fonts; see its <a href="games/iron-and-ink/download/#credits">credits</a>.</footer>
+  </div>
+
+  <dialog class="sheet" id="app-sheet" aria-labelledby="app-name"><div class="sheet-in" id="app-body" tabindex="-1" autofocus></div></dialog>
+
+  <dialog class="sheet" id="install-sheet" aria-labelledby="guide-title">
+    <div class="sheet-in guide" tabindex="-1" autofocus>
+      <div class="grab"></div>
+      <button class="x" type="button" data-close aria-label="Close">&times;</button>
+      <h2 id="guide-title">Add Baki Games to your Home Screen</h2>
+      <p id="guide-lede">It takes ten seconds, and it's the best way to play on a phone.</p>
+      <div class="why">
+        <div><b>Full screen</b>No browser bars over the game.</div>
+        <div><b>One tap</b>An icon next to your other apps.</div>
+        <div><b>Free</b>No store, no account, nothing to pay.</div>
+      </div>
+      <ol class="steps" id="guide-steps"></ol>
+      <div class="row">
+        <button class="pill solid big" type="button" id="guide-install" hidden>Install</button>
+        <button class="pill big" type="button" id="guide-later">Not now</button>
+        <a class="pill big" id="guide-play" hidden>Play in the browser</a>
+      </div>
+    </div>
+  </dialog>
+  <div class="arrow" id="share-arrow" aria-hidden="true">&#8595;</div>
+
+  <dialog class="viewer" id="viewer" aria-label="Larger picture"><form method="dialog"><img id="viewer-img" alt=""></form></dialog>
+
+  <script>
+  (function () {
+    var GAMES = [
+      { id: "iron-and-ink", name: "Iron & Ink", sub: "Grand strategy · Second World War", href: "games/iron-and-ink/", cta: "Play",
+        facts: [["Size", "34 MB", "in the browser"], ["Players", "1", "single-player"], ["Plays on", "Computer", "also Windows, Mac"], ["Price", "Free", "no ads"]],
+        desc: "A grand strategy game of the Second World War. Lead any nation of 1936 or 1939 through industry, research, diplomacy and war across six thousand provinces, with the news of the day printed from your own country's side.",
+        more: 'Also for <a href="games/iron-and-ink/download/">Windows and Mac</a>.', video: true,
+        shots: ["Europe in August 1939 on the paper map", "Poland and its neighbours before the war", "The Sunday Edition from the newsstand", "September 1939, the war reaches Poland"], phone: false },
+      { id: "prop-hunt", name: "Prop Hunt", sub: "Party · 2 to 8 friends online", href: "games/prop-hunt/", cta: "Play",
+        facts: [["Size", "11 MB", "in the browser"], ["Players", "2–8", "online"], ["Plays on", "Any", "computer or phone"], ["Price", "Free", "no ads"]],
+        desc: "Gremlins disguise themselves as furniture, barrels and boats, and hide in the cabins, barns and beach bars of a forest camp, a beach and a farm. The janitors get three minutes and a vacuum blaster to find them, and in the last minute the lights go out.",
+        video: true, shots: ["A gremlin turned treasure chest among the barrels on the beach", "Hiding as a grain sack inside the barn", "A janitor with the vacuum blaster at the forest camp", "Lights out at the camp, with a taunt marked on screen"], phone: true },
+      { id: "coldsnap", name: "Coldsnap", sub: "Shooter · Arctic research station", href: "games/coldsnap/", cta: "Play",
+        facts: [["Plays in", "Browser", "no download"], ["Players", "1", "third-person"], ["Plays on", "Any", "computer or phone"], ["Price", "Free", "no ads"]],
+        desc: "A third-person shooter at an Arctic research station. Play free in your browser, on a computer or a phone, no download.",
+        video: false, shots: [], phone: true },
+      { id: "emberfall", name: "Emberfall", sub: "Action · Survive the shadows", href: "games/emberfall/", cta: "Play",
+        facts: [["Size", "21 MB", "in the browser"], ["Players", "1", "single-player"], ["Plays on", "Any", "keys, pad or touch"], ["Price", "Free", "no ads"]],
+        desc: "Your light is your life. Keep it burning while waves of shadows close in on your lantern.",
+        video: true, shots: ["The lantern bearer firing bolts of light", "Shadows closing in on the light", "A late wave of shadows", "The arena lit by the lantern"], phone: true },
+      { id: "liminality", name: "Liminality: Dead Air", sub: "Horror · Early Access", href: "games/liminality/", cta: "Get",
+        facts: [["Download", "PC", "Windows, Mac, Linux"], ["Players", "1", "first-person"], ["Status", "Early", "Access"], ["Price", "Free", "no ads"]],
+        desc: "You were recording something ordinary. Then you stepped wrong, and the world peeled away. All you have is the camcorder.",
+        video: false, shots: ["Empty fluorescent rooms in Level 0", "A long yellow wall and stained carpet", "The Listener walking out of the distance", "The Listener up close, holding the camera"], phone: false }
+    ];
+
+    var ua = navigator.userAgent;
+    var iOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    var android = /Android/.test(ua);
+    var mobile = iOS || android || matchMedia("(pointer: coarse) and (max-width: 900px)").matches;
+    var standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+    var inApp = /FBAN|FBAV|Instagram|Line\/|Twitter|TikTok|Snapchat/.test(ua);
+    var deferred = null;
+
+    function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+    function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
+    function icon(g) { return "assets/icons/" + g.id + ".png"; }
+
+    // the list
+    var list = document.getElementById("apps");
+    GAMES.forEach(function (g) {
+      var li = document.createElement("li");
+      li.className = "app";
+      li.tabIndex = 0;
+      li.setAttribute("role", "button");
+      li.setAttribute("aria-label", g.name + ", " + g.sub);
+      li.innerHTML = '<img class="icon" src="' + icon(g) + '" alt="" width="64" height="64" loading="lazy">' +
+        '<div class="txt"><b>' + esc(g.name) + '</b><span>' + esc(g.sub) + '</span><small>' + esc(g.facts[0][1] + " · " + g.facts[2][1]) + '</small></div>' +
+        '<div class="pillcol"><a class="pill" href="' + g.href + '" data-play="' + g.id + '">' + g.cta + '</a><small>Free</small></div>';
+      li.addEventListener("click", function (e) { if (!e.target.closest("a")) location.hash = g.id; });
+      li.addEventListener("keydown", function (e) { if (e.key === "Enter" && e.target === li) location.hash = g.id; });
+      list.appendChild(li);
+    });
+
+    // app pages
+    var sheet = document.getElementById("app-sheet"), body = document.getElementById("app-body");
+    function openApp(g) {
+      var dir = "assets/previews/" + g.id + "/";
+      var shots = (g.video ? '<div><video controls playsinline preload="none" poster="' + dir + 'poster.jpg"><source src="' + dir + 'gameplay.mp4" type="video/mp4"></video></div>' : "") +
+        g.shots.map(function (alt, i) { return '<div><img src="' + dir + (i + 1) + '.jpg" alt="' + esc(alt) + '" loading="lazy" data-full="' + dir + (i + 1) + '.jpg"></div>'; }).join("");
+      body.innerHTML = '<div class="grab"></div><button class="x" type="button" data-close aria-label="Close">&times;</button>' +
+        '<div class="ahead"><img src="' + icon(g) + '" alt=""><div><h2 id="app-name">' + esc(g.name) + '</h2><p>' + esc(g.sub) + '</p>' +
+        '<a class="pill solid" href="' + g.href + '" data-play="' + g.id + '">' + g.cta + '</a></div></div>' +
+        '<div class="facts">' + g.facts.map(function (f) { return '<div><small>' + f[0] + '</small><b>' + f[1] + '</b><span>' + f[2] + '</span></div>'; }).join("") + '</div>' +
+        (shots ? '<div class="shots" tabindex="0" aria-label="Previews">' + shots + '</div>' : '') +
+        '<p class="desc">' + esc(g.desc) + '</p>' + (g.more ? '<p class="more">' + g.more + '</p>' : "");
+      if (!sheet.open) sheet.showModal();
+      sheet.scrollTop = 0;
+    }
+    function route() {
+      var g = GAMES.find(function (x) { return "#" + x.id === location.hash; });
+      if (g) openApp(g); else if (sheet.open) sheet.close();
+    }
+    sheet.addEventListener("close", function () { if (location.hash) history.replaceState(null, "", location.pathname); body.innerHTML = ""; });
+    window.addEventListener("hashchange", route);
+
+    // install guide
+    var guide = document.getElementById("install-sheet"), steps = document.getElementById("guide-steps");
+    var installBtn = document.getElementById("guide-install"), playBtn = document.getElementById("guide-play");
+    var share = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11v9h12v-9"/></svg>';
+    var plus = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8v8M8 12h8"/></svg>';
+    var dots = '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>';
+    function step(n, svg, html) { return '<li><span class="n">' + n + '</span>' + (svg || "") + '<span>' + html + '</span></li>'; }
+    function fillSteps() {
+      if (inApp) steps.innerHTML = step(1, dots, "Open this page in <b>Safari</b> or <b>Chrome</b> (use the menu, then <b>Open in browser</b>)") + step(2, share, "Then come back here and follow the steps");
+      else if (iOS) steps.innerHTML = step(1, share, "Tap the <b>Share</b> button in Safari's toolbar") + step(2, plus, "Scroll down and tap <b>Add to Home Screen</b>") + step(3, null, "Tap <b>Add</b>. Baki Games is now on your Home Screen");
+      else if (deferred) steps.innerHTML = step(1, plus, "Tap <b>Install</b> below") + step(2, null, "Open Baki Games from your Home Screen");
+      else steps.innerHTML = step(1, dots, "Tap the <b>menu</b> (three dots) in your browser") + step(2, plus, "Tap <b>Add to Home screen</b> or <b>Install app</b>") + step(3, null, "Open Baki Games from your Home Screen");
+      installBtn.hidden = !deferred;
+    }
+    function openGuide(playHref) {
+      fillSteps();
+      document.getElementById("guide-lede").textContent = playHref
+        ? "Before you play: games run best from your Home Screen, full screen and without browser bars."
+        : "It takes ten seconds, and it's the best way to play on a phone.";
+      playBtn.hidden = !playHref;
+      if (playHref) playBtn.href = playHref;
+      if (sheet.open) sheet.close();
+      guide.showModal();
+      document.getElementById("share-arrow").style.display = iOS && !inApp ? "block" : "none";
+    }
+    guide.addEventListener("close", function () { document.getElementById("share-arrow").style.display = "none"; });
+    document.getElementById("guide-later").addEventListener("click", function () { store("baki.install.later", String(Date.now())); guide.close(); });
+    installBtn.addEventListener("click", function () {
+      if (!deferred) return;
+      deferred.prompt();
+      deferred.userChoice.then(function () { deferred = null; guide.close(); });
+    });
+    window.addEventListener("beforeinstallprompt", function (e) { e.preventDefault(); deferred = e; });
+    window.addEventListener("appinstalled", function () { document.getElementById("install-card").classList.remove("show"); });
+
+    if (mobile && !standalone) {
+      document.getElementById("install-card").classList.add("show");
+      document.getElementById("install-open").addEventListener("click", function () { openGuide(null); });
+      // on the first visit (and again after three days) the guide opens by itself
+      var later = +store("baki.install.later") || 0;
+      if (Date.now() - later > 3 * 24 * 3600 * 1000) setTimeout(function () { if (!sheet.open && !guide.open) openGuide(null); }, 1200);
+    }
+
+    // a Play tap on a phone outside the Home Screen app recommends adding it first (once a day)
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest("a[data-play]");
+      if (!a || !mobile || standalone) return;
+      var g = GAMES.find(function (x) { return x.id === a.dataset.play; });
+      if (!g || !g.phone) return;
+      var asked = +store("baki.install.asked") || 0;
+      if (Date.now() - asked < 24 * 3600 * 1000) return;
+      store("baki.install.asked", String(Date.now()));
+      e.preventDefault();
+      openGuide(a.getAttribute("href"));
+    });
+
+    // close buttons, backdrop taps, bigger pictures
+    document.addEventListener("click", function (e) {
+      if (e.target.closest("[data-close]")) e.target.closest("dialog").close();
+      var full = e.target.closest("img[data-full]");
+      if (full) { var v = document.getElementById("viewer"); document.getElementById("viewer-img").src = full.dataset.full; document.getElementById("viewer-img").alt = full.alt; v.showModal(); }
+    });
+    [sheet, guide, document.getElementById("viewer")].forEach(function (d) {
+      d.addEventListener("click", function (e) { if (e.target === d) d.close(); });
+    });
+    document.addEventListener("play", function (e) {
+      document.querySelectorAll("video").forEach(function (v) { if (v !== e.target) v.pause(); });
+    }, true);
+
+    route();
+  })();
+  </script>
+  <script src="assets/promo.js"></script>
+</body>
+</html>

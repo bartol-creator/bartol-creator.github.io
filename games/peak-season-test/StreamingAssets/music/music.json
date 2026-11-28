@@ -1,0 +1,224 @@
+{
+  "tracks": [
+    {
+      "file": "01-chopin-nocturne-in-e-flat-major-op-9-no-2.mp3",
+      "composer": "Frédéric Chopin",
+      "piece": "Nocturne in E-flat major, Op. 9 No. 2",
+      "performer": "Frank Lévy",
+      "license": "Public domain",
+      "source": "https://commons.wikimedia.org/wiki/File:Chopin_-_Nocturne_No._2_in_E-flat_major,_Op._9_No._2_(Frank_Levy).flac",
+      "seconds": 269
+    },
+    {
+      "file": "02-chopin-nocturne-in-c-sharp-minor-b-49.mp3",
+      "composer": "Frédéric Chopin",
+      "piece": "Nocturne in C-sharp minor, B. 49",
+      "performer": "Frank Lévy",
+      "license": "Public domain",
+      "source": "https://commons.wikimedia.org/wiki/File:Chopin_-_Nocturne_No._20_in_C-sharp_minor,_B._49_(Frank_Levy).flac",
+      "seconds": 222
+    },
+    {
+      "file": "03-chopin-nocturne-in-d-flat-major-op-27-no-2.mp3",
+      "composer": "Frédéric Chopin",
+      "piece": "Nocturne in D-flat major, Op. 27 No. 2",
+      "performer": "Frank Lévy",
+      "license": "Public domain",
+      "source": "https://commons.wikimedia.org/wiki/File:Chopin_-_Nocturne_No._8_in_D-flat_major,_Op._27_No._2_(Frank_Levy).flac",
+      "seconds": 373
+    },
+    {
+      "file": "04-chopin-fantaisie-impromptu-op-66.mp3",
+      "composer": "Frédéric Chopin",
+      "piece": "Fantaisie-Impromptu, Op. 66",
+      "performer": "Frank Lévy",
+      "license": "Public domain",
+      "source": "https://commons.wikimedia.org/wiki/File:Chopin_-_Impromptu_No._4_in_C-sharp_minor,_Op._66_%27Fantaisie-Impromptu%27_(Frank_Levy).flac",
+      "seconds": 324,
+      "lively": true
+    },
+    {
+      "file": "06-chopin-waltz-in-c-sharp-minor-op-64-no-2.mp3",
+      "composer": "Frédéric Chopin",
+      "piece": "Waltz in C-sharp minor, Op. 64 No. 2",
+      "performer": "Olga Gurevich",
+      "license": "Public domain",
+      "source": "https://commons.wikimedia.org/wiki/File:Chopin_-_Waltz_No._7_in_C-sharp_minor,_Op._64_No._2_(Olga_Gurevich).flac",
+      "seconds": 228,
+      "lively": true
+    },
+    {
+      "file": "07-chopin-waltz-in-a-flat-major-op-69-no-1-farewell.mp3",
+      "composer": "Frédéric Chopin",
+      "piece": "Waltz in A-flat major, Op. 69 No. 1 \"Farewell\"",
+      "performer": "Olga Gurevich",
+      "license": "Public domain",
+      "source": "https://commons.wikimedia.org/wiki/File:Chopin_-_Waltz_No._9_in_A-flat_major,_Op._69_No._1_%27Farewell%27_(Olga_Gurevich).flac",
+      "seconds": 247
+    },
+    {
+      "file": "09-liszt-liebestraum-no-3-in-a-flat-major.mp3",
+      "composer": "Franz Liszt",
+      "piece": "Liebestraum No. 3 in A-flat major",
+      "performer": "Al Goldstein collection",
+      "license": "CC BY-SA 2.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Franz_Liszt_-_Liebestraum,_Ab_Major.ogg",
+      "seconds": 265
+    },
+    {
+      "file": "11-liszt-consolation-no-3-in-d-flat-major.mp3",
+      "composer": "Franz Liszt",
+      "piece": "Consolation No. 3 in D-flat major",
+      "performer": "Gnom",
+      "license": "CC BY-SA 4.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Franz_Liszt_-_Consolation_No._3,_Lento_placido.ogg",
+      "seconds": 220
+    },
+    {
+      "file": "12-beethoven-moonlight-sonata-i-adagio-sostenuto.mp3",
+      "composer": "Ludwig van Beethoven",
+      "piece": "\"Moonlight\" Sonata: I. Adagio sostenuto",
+      "performer": "Musopen",
+      "license": "Public domain",
+      "source": "https://commons.wikimedia.org/wiki/File:Ludwig_van_Beethoven_-_sonata_no._14_in_c_sharp_minor_%27moonlight%27,_op._27_no._2_-_i._adagio_sostenuto.ogg",
+      "seconds": 332
+    },
+    {
+      "file": "13-beethoven-path-tique-sonata-ii-adagio-cantabile.mp3",
+      "composer": "Ludwig van Beethoven",
+      "piece": "\"Pathétique\" Sonata: II. Adagio cantabile",
+      "performer": "Musopen",
+      "license": "CC0",
+      "source": "https://commons.wikimedia.org/wiki/File:Beethoven,_Sonata_No._8_in_C_Minor_Pathetique,_Op._13_-_II._Adagio_cantabile.ogg",
+      "seconds": 298
+    },
+    {
+      "file": "14-beethoven-f-r-elise.mp3",
+      "composer": "Ludwig van Beethoven",
+      "piece": "Für Elise",
+      "performer": "V. Gao",
+      "license": "Public domain",
+      "source": "https://commons.wikimedia.org/wiki/File:FurElise.ogg",
+      "seconds": 175
+    },
+    {
+      "file": "15-mozart-eine-kleine-nachtmusik-ii-romanze.mp3",
+      "composer": "Wolfgang Amadeus Mozart",
+      "piece": "Eine kleine Nachtmusik: II. Romanze",
+      "performer": "Musopen",
+      "license": "Public domain",
+      "source": "https://commons.wikimedia.org/wiki/File:Mozart_-_Serenade_No._13_for_strings_in_G_major,_K._525_-_Romanze.ogg",
+      "seconds": 259,
+      "lively": true
+    },
+    {
+      "file": "16-mozart-piano-concerto-no-17-ii-andante.mp3",
+      "composer": "Wolfgang Amadeus Mozart",
+      "piece": "Piano Concerto No. 17: II. Andante",
+      "performer": "Musopen",
+      "license": "CC0",
+      "source": "https://commons.wikimedia.org/wiki/File:Mozart_-_Concerto_No.17_in_G_-_II._Andante.ogg",
+      "seconds": 672
+    },
+    {
+      "file": "17-bach-goldberg-variations-aria.mp3",
+      "composer": "Johann Sebastian Bach",
+      "piece": "Goldberg Variations: Aria",
+      "performer": "Shelley Katz",
+      "license": "Public domain",
+      "source": "https://commons.wikimedia.org/wiki/File:Bach,_J_S_-_Goldberg_Variations,_BWV988_-_01._Aria_(Shelley_Katz).flac",
+      "seconds": 289
+    },
+    {
+      "file": "18-bach-prelude-and-fugue-in-c-major-bwv-846.mp3",
+      "composer": "Johann Sebastian Bach",
+      "piece": "Prelude and Fugue in C major, BWV 846",
+      "performer": "Musopen",
+      "license": "CC0",
+      "source": "https://commons.wikimedia.org/wiki/File:JS_Bach_-_Well_Tempered_Clavier_-_Prelude_in_Fugue_No.1_in_C_major.ogg",
+      "seconds": 253,
+      "lively": true
+    },
+    {
+      "file": "19-bach-air-orchestral-suite-no-3.mp3",
+      "composer": "Johann Sebastian Bach",
+      "piece": "Air (Orchestral Suite No. 3)",
+      "performer": "United States Air Force Band Strings",
+      "license": "Public domain",
+      "source": "https://commons.wikimedia.org/wiki/File:Air_-_Air_Force_Strings_-_United_States_Air_Force_Band.mp3",
+      "seconds": 176
+    },
+    {
+      "file": "20-bach-cello-suite-no-1-pr-lude.mp3",
+      "composer": "Johann Sebastian Bach",
+      "piece": "Cello Suite No. 1: Prélude",
+      "performer": "Chris (Fopseh)",
+      "license": "CC0",
+      "source": "https://commons.wikimedia.org/wiki/File:Bach_Cello_Suite_1_Prelude_(BWV_1007)_Played_by_Chris.ogg",
+      "seconds": 155
+    },
+    {
+      "file": "21-bach-jesu-joy-of-man-s-desiring.mp3",
+      "composer": "Johann Sebastian Bach",
+      "piece": "Jesu, Joy of Man's Desiring",
+      "performer": "Musopen",
+      "license": "CC0",
+      "source": "https://commons.wikimedia.org/wiki/File:Bach,_BWV_147,_10._Jesus_bleibet_meine_Freude.ogg",
+      "seconds": 201
+    },
+    {
+      "file": "23-scriabin-tude-in-c-sharp-minor-op-2-no-1.mp3",
+      "composer": "Alexander Scriabin",
+      "piece": "Étude in C-sharp minor, Op. 2 No. 1",
+      "performer": "Axel Lange",
+      "license": "CC BY-SA 3.0",
+      "source": "https://commons.wikimedia.org/wiki/File:Skriabin_Etude_cis-Moll_op.2_No.1.ogg",
+      "seconds": 156
+    },
+    {
+      "file": "25-debussy-clair-de-lune.mp3",
+      "composer": "Claude Debussy",
+      "piece": "Clair de lune",
+      "performer": "Laurens Goedhart",
+      "license": "Public domain",
+      "source": "https://commons.wikimedia.org/wiki/File:Clair_de_lune_(Claude_Debussy)_Suite_bergamasque.ogg",
+      "seconds": 303
+    },
+    {
+      "file": "26-satie-gymnop-die-no-1.mp3",
+      "composer": "Erik Satie",
+      "piece": "Gymnopédie No. 1",
+      "performer": "Robin Alciatore",
+      "license": "Public domain",
+      "source": "https://commons.wikimedia.org/wiki/File:Erik_Satie_-_gymnopedies_-_la_1_ere._lent_et_douloureux.ogg",
+      "seconds": 180
+    },
+    {
+      "file": "27-grieg-peer-gynt-morning-mood.mp3",
+      "composer": "Edvard Grieg",
+      "piece": "Peer Gynt: Morning Mood",
+      "performer": "Musopen Symphony",
+      "license": "Public domain",
+      "source": "https://commons.wikimedia.org/wiki/File:Grieg_-_Peer_Gynt_Suite_No._1,_Op._46_-_I._Morning_Mood_(Musopen_Symphony).flac",
+      "seconds": 228
+    },
+    {
+      "file": "29-dvo-k-symphony-no-9-from-the-new-world-ii-largo.mp3",
+      "composer": "Antonín Dvořák",
+      "piece": "Symphony No. 9 \"From the New World\": II. Largo",
+      "performer": "Musopen",
+      "license": "Public domain",
+      "source": "https://commons.wikimedia.org/wiki/File:Antonin_Dvorak_-_symphony_no._9_in_e_minor_%27from_the_new_world%27,_op._95_-_ii._largo.ogg",
+      "seconds": 694
+    },
+    {
+      "file": "30-pachelbel-canon-in-d.mp3",
+      "composer": "Johann Pachelbel",
+      "piece": "Canon in D",
+      "performer": "United States Air Force Band Strolling Strings",
+      "license": "Public domain",
+      "source": "https://commons.wikimedia.org/wiki/File:Canon_(2004)_-_Strolling_Strings_-_United_States_Air_Force_Band.mp3",
+      "seconds": 225
+    }
+  ]
+}
